@@ -67,7 +67,6 @@ public class JsonParser {
         this.element=new String(tab);
         return texte.substring(1);
     }
-
     public String caractere(String texte){
         this.element="\"";
         texte=texte.substring(1);
@@ -117,8 +116,18 @@ public class JsonParser {
         }
         return maillon.getValeur()+" "+this.afficher(maillon.getSuivant());
     }
+
+    public String remove(){
+        String texte =this.premier.getValeur();
+        this.premier=this.premier.getSuivant();
+        return texte;
+    }
+    public boolean isEmpty(){
+        return this.premier==null;
+    }
+
     public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
+        String chaine = new String("{\"status\":\"ok\",\"size\": -3333.5444E+100,\"values\": [0.5,null,1e1]}");
         JsonParser j = new JsonParser(chaine);
         System.out.println(j.toString());
     }

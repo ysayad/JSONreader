@@ -1,7 +1,7 @@
 /**
  * MaillonParser
  */
-public class MaillonParser {
+public class MaillonParser implements Maillon{
     MaillonParser suivant;
     String valeur;
     String type;
