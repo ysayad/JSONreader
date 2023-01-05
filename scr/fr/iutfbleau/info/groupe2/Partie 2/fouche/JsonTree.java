@@ -7,10 +7,22 @@ public class JsonTree {
     public final int milieu=1;
     public final int fin=2;
     private int indent;
+    /** constructeur
+     *
+     * @param liste  l'arbre à faire,
+     * @return void,
+     * constructeur de l'arbre
+     */
     public JsonTree(JsonParser liste){
         int taille=initialiser(liste);
         modifier(taille);
     }
+    /** méthode
+     *
+     * @param liste  l'arbre à faire,
+     * @return void,
+     * initialisateur de l'arbre
+     */
     public int initialiser(JsonParser liste){
         MaillonTree m=null,n=null;
         int taille=0;
@@ -30,6 +42,12 @@ public class JsonTree {
         }
         return taille;
     }
+    /** méthode
+     *
+     * @param taille  taille de l'arbre,
+     * @return void,
+     * modificateur de l'arbre
+     */
     public void modifier(int taille){
         for(int i=1;i<=taille;i++){
             this.indent=i;
@@ -47,7 +65,7 @@ public class JsonTree {
                 }
             }
         }
-        //System.out.println(this.racine.getGauche().getValeur());
+
         for(int i=1;i<=taille;i++){
             this.indent=i;
             MaillonTree maillon=this.parcourir(this.racine,debut);
@@ -65,6 +83,12 @@ public class JsonTree {
             }
         }
     }
+    /** méthode
+     *
+     * @param taille  taille de l'arbre,
+     * @return void,
+     * modificateur de l'arbre
+     */
     public MaillonTree parcourir(MaillonTree maillon,int etat){
         MaillonTree m=null,n=null;
         if(maillon.getGauche()!=null){
@@ -85,6 +109,12 @@ public class JsonTree {
         }
         return null;
     }
+    /** méthode
+     *
+     * @param pere maillon de l'arbre, fils maillon de l'arbre,
+     * @return void,
+     * permuter deux éléments de l'arbre
+     */
     public void permuter(MaillonTree pere, MaillonTree fils){
         if(pere!=this.racine){
             if(pere.getPere().getDroite()==pere){
@@ -117,6 +147,12 @@ public class JsonTree {
         }
         
     }
+    /** méthode
+     *
+     * @param pere maillon de l'arbre, fils maillon de l'arbre,
+     * @return void,
+     * ajouter le fils à l'arbre
+     */
     public boolean ajouter(MaillonTree pere, MaillonTree fils){
         if(ajouterGauche(pere,fils)){
             return true;
@@ -126,6 +162,12 @@ public class JsonTree {
         }
         return false;
     }
+    /** méthode
+     *
+     * @param pere maillon de l'arbre, fils maillon de l'arbre,
+     * @return void,
+     * ajouter le fils à gauche du pere de l'arbre
+     */
     public boolean ajouterGauche(MaillonTree pere, MaillonTree fils){
         if(pere.getGauche()==null){
             pere.setGauche(fils);
@@ -133,6 +175,12 @@ public class JsonTree {
         }
         return false;
     }
+    /** méthode
+     *
+     * @param pere maillon de l'arbre, fils maillon de l'arbre,
+     * @return void,
+     * ajouter le fils à droite du pere de l'arbre
+     */
     public boolean ajouterDroite(MaillonTree pere, MaillonTree fils){
         if(pere.getDroite()==null){
             pere.setDroite(fils);
@@ -140,6 +188,12 @@ public class JsonTree {
         }
         return false;
     }
+    /** méthode
+     *
+     * @param fils maillon de l'arbre, pere maillon de l'arbre,
+     * @return void,
+     * ajouter le pere au fils de l'arbre
+     */
     public boolean ajouterPere(MaillonTree fils, MaillonTree pere){
         if(fils.getPere()==null){
             fils.setPere(pere);
@@ -147,9 +201,21 @@ public class JsonTree {
         }
         return false;
     }
+    /** méthode
+     *
+     * @param void,
+     * @return String chaine,
+     * renvoie le String qui représente l'arbre
+     */
     public String toString(){
         return this.afficher(this.racine,0);
     }
+    /** méthode
+     *
+     * @param maillon le premier maillon de l'arbre, i entier qui indique la profondeur de la branche
+     * @return String chaine,
+     * renvoie le String qui représente l'arbre
+     */
     public String afficher(MaillonTree maillon,int i){
         String indent="";
         for(int j=0;j<i;j++){
@@ -166,6 +232,12 @@ public class JsonTree {
         }
         return indent+maillon.getValeur()+"\n"+this.afficher(maillon.getGauche(),i+1)+this.afficher(maillon.getDroite(), i+1);
     }
+    /** main
+     *
+     * @param args les arguments à la console,
+     * @return void,
+     * appelle le constructeur pour créer un JSonTree
+     */
     public static void main(String[] args) {
         String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
         JsonParser j = new JsonParser(chaine);
