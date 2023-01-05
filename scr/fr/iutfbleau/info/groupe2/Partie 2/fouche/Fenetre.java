@@ -1,7 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
-
+/**
+ * Fenetre
+ */
 public class Fenetre {
+    /** constructeur
+     *
+     * @param void,
+     * @return void,
+     * construis et affiche la fenetre
+     */
     public Fenetre(){
         JFrame fenetre=new JFrame();
         fenetre.setSize(1000,1000);
@@ -55,8 +63,13 @@ public class Fenetre {
 
         fenetre.setVisible(true);
     }
-
-    public void layoutOptions(GridBagConstraints gbc,int x, int y, int width, int height, int fill, int anchor, double weightx, double weighty,Insets insets) {
+    /** méthode
+     *
+     * @param GridBagConstraints gbc l'objet de la contrainte,int x position de départ en x, int y position de départ en y, int width nombre de case en longueur, int height nombres de case en hauteur, int fill contrainte de remplissage, int anchor contrainte de position, double weightx poids en x, double weighty poids en y,Insets insets espacements,
+     * @return GridBagConstraints pour modifier,
+     * renvoie les contraintes pour un élément dans la fenetre
+     */
+    public GridBagConstraints layoutOptions(GridBagConstraints gbc,int x, int y, int width, int height, int fill, int anchor, double weightx, double weighty,Insets insets) {
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.gridwidth = width;
@@ -66,8 +79,14 @@ public class Fenetre {
         gbc.weightx = weightx;
         gbc.weighty = weighty;
         gbc.insets = insets;
+        return gbc;
     }
-
+    /** méthode
+     *
+     * @param void,
+     * @return void,
+     * créer une zone vide pour afficher le bon placement des éléments
+     */
     public void creerVide(int x, int y,JFrame f,GridBagConstraints gbc) {
         JPanel espace = new JPanel();
         espace.setPreferredSize(new Dimension(10,10));
@@ -75,7 +94,12 @@ public class Fenetre {
         this.layoutOptions(gbc,x, y, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, 0.0, 0.0,new Insets(0, 0, 0, 0));
         f.add(espace, gbc);
     }
-
+    /** méthode
+     *
+     * @param chaine le String que l'on va afficher,
+     * @return int le nombre de suat à la ligne,
+     * trouve le nombre de sauts à la ligne dans une chaine de charactère
+     */
     public int compte(String chaine) {
         int nb=1;
         for(int i=0;i<chaine.length();i++){
@@ -85,6 +109,12 @@ public class Fenetre {
         }
         return nb;
     }
+    /** main
+     *
+     * @param args les arguments à la console,
+     * @return void,
+     * appelle le constructeur pour afficher une fenêtre
+     */
     public static void main(String[] args) {
         Fenetre f= new Fenetre();
     }

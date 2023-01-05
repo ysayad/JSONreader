@@ -6,11 +6,23 @@ public class JsonParser {
     private String element;
     private String chaine;
     private String base;
+    /** constructeur
+     *
+     * @param texte  la chaine à écrire,
+     * @return void,
+     * construis le JSon parser avec une chaine de charactere
+     */
     public JsonParser(String texte) {
         this.base=texte;
         this.chaine=texte;
         this.premier=this.transformer(this.premier);
     }
+    /** méthode
+     *
+     * @param maillon un maillon qui sera modifier,
+     * @return MaillonParser le premier maillon de la chaine,
+     * construis et affiche la fenetre
+     */
     public MaillonParser transformer(MaillonParser maillon){
         if(this.chaine.length()==0){
             return maillon;
@@ -22,6 +34,12 @@ public class JsonParser {
         maillon.setSuivant(transformer(maillon.getSuivant()));
         return maillon;
     }
+    /** méthode
+     *
+     * @param void,
+     * @return String le type de l'élément,
+     * renvoie le type de l'élément de la chaine
+     */
     public String typer(){
         if(this.element.compareTo("{")==0 || this.element.compareTo("}")==0 || this.element.compareTo("[")==0 || this.element.compareTo("]")==0 || this.element.compareTo(",")==0 || this.element.compareTo(":")==0){
             return "separateur";
@@ -39,6 +57,12 @@ public class JsonParser {
         }
         return "autre";
     }
+    /** méthode
+     *
+     * @param String la chaine de charactere,
+     * @return String l'élément,
+     * renvoie un élément de la chaine de String
+     */
     public String retirer (String texte){
         if(texte.charAt(0)=='"'){
             return this.caractere(texte);
@@ -66,6 +90,12 @@ public class JsonParser {
         this.element=new String(tab);
         return texte.substring(1);
     }
+    /** méthode
+     *
+     * @param String la chaine de charactere,
+     * @return String l'élément,
+     * renvoie l'élement de type String
+     */
     public String caractere(String texte){
         this.element="\"";
         texte=texte.substring(1);
@@ -76,7 +106,12 @@ public class JsonParser {
         this.element=this.element+texte.charAt(0);
         return texte.substring(1);
     }
-
+    /** méthode
+     *
+     * @param String la chaine de charactere,
+     * @return String l'élément,
+     * renvoie l'élement de type entier
+     */
     public String entier(String texte){
         this.element=""+texte.charAt(0);
         texte=texte.substring(1);
@@ -106,25 +141,53 @@ public class JsonParser {
         }
         return texte;
     }
+    /** méthode
+     *
+     * @param void,
+     * @return String contenu,
+     * renvoie le contenu du JSonParser
+     */
     public String toString(){
         return this.afficher(this.premier);
     }
+    /** méthode
+     *
+     * @param MaillonParser le maillon dans lequel retirer l'élément,
+     * @return String l'élément,
+     * renvoie un élément du JSonParser
+     */
     public String afficher(MaillonParser maillon){
         if(maillon.getSuivant()==null){
             return maillon.getValeur();
         }
         return maillon.getValeur()+" "+this.afficher(maillon.getSuivant());
     }
-
+    /** méthode
+     *
+     * @param void,
+     * @return Maillon un maillon,
+     * retire un maillons du JSonParser dans l'ordre
+     */
     public Maillon remove(){
         MaillonParser texte =this.premier;
         this.premier=this.premier.getSuivant();
         return texte;
     }
+    /** méthode
+     *
+     * @param void,
+     * @return boolean true ou false,
+     * vérifie si le JSonParser est vide
+     */
     public boolean isEmpty(){
         return this.premier==null;
     }
-
+    /** main
+     *
+     * @param args les arguments à la console,
+     * @return void,
+     * appelle le constructeur pour créer un JSonParser
+     */
     public static void main(String[] args) {
         String chaine = new String("{\"status\":\"ok\",\"size\": -3333.5444E+100,\"values\": [0.5,null,1e1]}");
         JsonParser j = new JsonParser(chaine);
