@@ -47,13 +47,11 @@ public class JsonParser {
         if(this.chaine.charAt(0)==':'){
             return "nom";
         }
-        if(this.base.charAt(this.base.length()-this.chaine.length()-this.element.length()-1)==':'){
-            if(this.element.charAt(0)=='"'){
-                return "chaine";
-            }
-            if(this.element.codePointAt(0)>=48 && this.element.codePointAt(0)<=57 || this.element.charAt(0)=='-'){
-                return "nombre";
-            }
+        if(this.element.charAt(0)=='"'){
+            return "chaine";
+        }
+        if(this.element.codePointAt(0)>=48 && this.element.codePointAt(0)<=57 || this.element.charAt(0)=='-'){
+            return "nombre";
         }
         return "autre";
     }
