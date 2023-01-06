@@ -1,3 +1,5 @@
+package fr.iutfbleau.projetJson.Partie1.sayad;
+
 public class Inspecteur {
     public static void main(String[] args) {
         JsonString brut = new JsonString(args[0]);

@@ -1,3 +1,5 @@
+package fr.iutfbleau.projetJson.Partie1.sayad;
+
 import java.util.LinkedList;
 
 public class JsonNode {
