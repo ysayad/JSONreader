@@ -1,0 +1,3 @@
+public enum JsonType {
+    OBJECT, ARRAY, VALUE, STRING, NUMBER, TRUE, FALSE, NULL
+}
