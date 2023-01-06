@@ -54,9 +54,21 @@ public class JsonTree {
             MaillonTree maillon=this.parcourir(this.racine,debut);
             String chaine=maillon.getValeur();
             if(chaine.compareTo(",")==0){
-                for (;maillon!=this.racine && maillon.getPere().getValeur().compareTo(",")!=0 && maillon.getPere().getValeur().compareTo("[")!=0 && maillon.getPere().getValeur().compareTo("{")!=0;) {
+                int compteurAccolade=0,compteurCrochet=0;
+                for (;maillon!=this.racine && compteurAccolade!=0 || compteurCrochet!=0 || (maillon.getPere().getValeur().compareTo(",")!=0 && maillon.getPere().getValeur().compareTo("[")!=0 && maillon.getPere().getValeur().compareTo("{")!=0);) {
+                    if(maillon.getPere().getValeur().compareTo("}")==0){
+                        compteurAccolade++;
+                    }
+                    if(maillon.getPere().getValeur().compareTo("]")==0){
+                        compteurCrochet++;
+                    }
+                    if(maillon.getPere().getValeur().compareTo("{")==0){
+                        compteurAccolade--;
+                    }
+                    if(maillon.getPere().getValeur().compareTo("[")==0){
+                        compteurCrochet--;
+                    }
                     permuter(maillon.getPere(),maillon);
-                    
                 }
             }
             if(chaine.compareTo(":")==0){
@@ -65,23 +77,96 @@ public class JsonTree {
                 }
             }
         }
+        int compteurVirgule=0;
+        for(int i=1;i<=taille;i++){
+            this.indent=i;
+            MaillonTree maillon=this.parcourir(this.racine,debut);
+            String chaine=maillon.getValeur();
+            if(chaine.compareTo(",")==0){
+                compteurVirgule++;
+            }
+            if(chaine.compareTo("{")==0){
 
+                boolean milieu=false,reussite=false;
+                int compteurAccolade=0,compteurCrochet=0;
+                for(int j=1;j<=taille;j++){
+                    MaillonTree maillon2=this.parcourir(this.racine,debut);
+                    String chaine2=maillon2.getValeur();
+                    if(maillon2==maillon){
+                        milieu=true;
+                    }else if(maillon2!=maillon && chaine2.compareTo("{")==0){
+                        milieu=false;
+                        compteurAccolade++;
+                    }else if(chaine2.compareTo("[")==0){
+                        milieu=false;
+                        compteurCrochet++;
+                    }else if(chaine2.compareTo("}")==0 && compteurAccolade!=0){
+                        compteurAccolade--;
+                    }else if(chaine2.compareTo("}")==0 && compteurAccolade==0 || compteurCrochet==0){
+                        milieu=false;
+                    }else if(chaine2.compareTo("]")==0 && compteurCrochet!=0){
+                        compteurCrochet--;
+                    }
+                    //this.indent=i;
+                    if (chaine2.compareTo(",")==0){
+                        if (milieu==true && reussite==false){
+                            optimiser(maillon2,compteurVirgule);
+                        }
+                        reussite=true;
+                    }
+                }
+            }
+            if(chaine.compareTo("[")==0){
+                boolean milieu=false,reussite=false;
+                int compteurAccolade=0,compteurCrochet=0;
+                for(int j=1;j<=taille;j++){
+                    MaillonTree maillon2=this.parcourir(this.racine,debut);
+                    String chaine2=maillon2.getValeur();
+                    if(maillon2==maillon){
+                        milieu=true;
+                    }else if(maillon2!=maillon && chaine2.compareTo("[")==0){
+                        milieu=false;
+                        compteurCrochet++;
+                    }else if(chaine2.compareTo("{")==0){
+                        milieu=false;
+                        compteurAccolade++;
+                    }else if(chaine2.compareTo("]")==0 && compteurCrochet!=0){
+                        compteurCrochet--;
+                    }else if(chaine2.compareTo("]")==0 && compteurAccolade==0 || compteurCrochet==0){
+                        milieu=false;
+                    }else if(chaine2.compareTo("}")==0 && compteurAccolade!=0){
+                        compteurAccolade--;
+                    }
+                    //this.indent=i;
+                    if (chaine2.compareTo(",")==0){
+                        if (milieu==true && reussite==false){
+                            optimiser(maillon2,compteurVirgule);
+                        }
+                        reussite=true;
+                    }
+                }
+            }
+        }
         for(int i=1;i<=taille;i++){
             this.indent=i;
             MaillonTree maillon=this.parcourir(this.racine,debut);
             String chaine=maillon.getValeur();
             if(chaine.compareTo("{")==0){
-                permuter(maillon,maillon.getDroite());
-                for (;maillon.getDroite()!=null;) {
+                
+                /*for (;maillon.getDroite()!=null;) {
                     permuter(maillon,maillon.getDroite());
-                }
+                }*/
             }
             if(chaine.compareTo("[")==0){
-                for (;maillon.getDroite()!=null;) {
+                /*for (;maillon.getDroite()!=null;) {
                     permuter(maillon,maillon.getDroite());
-                }
+                }*/
             }
         }
+    }
+
+    public void optimiser(MaillonTree m,int nb){
+        
     }
     /** méthode
      *
@@ -225,12 +310,12 @@ public class JsonTree {
             return indent+maillon.getValeur()+"\n";
         }
         if(maillon.getGauche()==null){
-            return indent+maillon.getValeur()+"\n"+this.afficher(maillon.getDroite(), i+1);
+            return indent+maillon.getValeur()+"\n"+"D "+i+this.afficher(maillon.getDroite(), i+1);
         }
         if(maillon.getDroite()==null){
-            return indent+maillon.getValeur()+"\n"+this.afficher(maillon.getGauche(), i+1);
+            return indent+maillon.getValeur()+"\n"+"G "+i+this.afficher(maillon.getGauche(), i+1);
         }
-        return indent+maillon.getValeur()+"\n"+this.afficher(maillon.getGauche(),i+1)+this.afficher(maillon.getDroite(), i+1);
+        return indent+maillon.getValeur()+"\n"+"K "+i+this.afficher(maillon.getGauche(),i+1)+"L "+i+this.afficher(maillon.getDroite(), i+1);
     }
     /** main
      *
