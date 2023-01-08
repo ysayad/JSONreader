@@ -1,12 +1,14 @@
+import java.util.*;
+
 /**
  * JsonTree
  */
 public class JsonTree {
-    private MaillonTree racine;
-    public final int debut=0;
-    public final int milieu=1;
-    public final int fin=2;
-    private int indent;
+    private MaillonTree noeud;
+    private MaillonTree substitution;
+    private Deque<MaillonTree> pile;
+    private Deque<MaillonTree> stock;
+    private int taille;
     /** constructeur
      *
      * @param liste  l'arbre à faire,
@@ -14,8 +16,12 @@ public class JsonTree {
      * constructeur de l'arbre
      */
     public JsonTree(JsonParser liste){
-        int taille=initialiser(liste);
-        modifier(taille);
+        this.pile=new ArrayDeque<MaillonTree>();
+        this.stock=new ArrayDeque<MaillonTree>();
+        this.noeud=new MaillonTree();
+        this.substitution=new MaillonTree();
+        this.taille=0;
+        initialiser(liste);
     }
     /** méthode
      *
@@ -23,24 +29,15 @@ public class JsonTree {
      * @return void,
      * initialisateur de l'arbre
      */
-    public int initialiser(JsonParser liste){
-        MaillonTree m=null,n=null;
-        int taille=0;
-        if(!liste.isEmpty()){
-            Maillon o=liste.remove();
-            n=new MaillonTree(o.getValeur(),o.getType());
-            this.racine=n;
-            taille=1;
-        }   
-        for(;!liste.isEmpty();){
-            taille++;
-            Maillon o=liste.remove();
+    public void initialiser(JsonParser liste){
+        MaillonTree m=new MaillonTree();
+        MaillonTree n=new MaillonTree();
+        this.noeud=n;
+        for(;!liste.hasNext();){
+            Maillon o=liste.next();
             m=new MaillonTree(o.getValeur(),o.getType());
-            this.ajouterDroite(n,m);
-            this.ajouterPere(m,n);
-            n=m;
+            this.ajouter(m);
         }
-        return taille;
     }
     /** méthode
      *
@@ -48,125 +45,21 @@ public class JsonTree {
      * @return void,
      * modificateur de l'arbre
      */
-    public void modifier(int taille){
-        for(int i=1;i<=taille;i++){
-            this.indent=i;
-            MaillonTree maillon=this.parcourir(this.racine,debut);
-            String chaine=maillon.getValeur();
-            if(chaine.compareTo(",")==0){
-                int compteurAccolade=0,compteurCrochet=0;
-                for (;maillon!=this.racine && compteurAccolade!=0 || compteurCrochet!=0 || (maillon.getPere().getValeur().compareTo(",")!=0 && maillon.getPere().getValeur().compareTo("[")!=0 && maillon.getPere().getValeur().compareTo("{")!=0);) {
-                    if(maillon.getPere().getValeur().compareTo("}")==0){
-                        compteurAccolade++;
-                    }
-                    if(maillon.getPere().getValeur().compareTo("]")==0){
-                        compteurCrochet++;
-                    }
-                    if(maillon.getPere().getValeur().compareTo("{")==0){
-                        compteurAccolade--;
-                    }
-                    if(maillon.getPere().getValeur().compareTo("[")==0){
-                        compteurCrochet--;
-                    }
-                    permuter(maillon.getPere(),maillon);
-                }
-            }
-            if(chaine.compareTo(":")==0){
-                for (;maillon!=this.racine && maillon.getPere().getValeur().compareTo(",")!=0 && maillon.getPere().getValeur().compareTo("{")!=0;) {
-                    permuter(maillon.getPere(),maillon);
-                }
-            }
+    public MaillonTree remove(){
+        MaillonTree m = this.noeud.remove();
+        this.substitution.add(m);
+        if(m.isNoeud()){
+            this.pile.addFirst(this.noeud);
+            this.stock.addFirst(this.substitution);
+            this.noeud=m;
+            this.substitution=m;
         }
-        int compteurVirgule=0;
-        for(int i=1;i<=taille;i++){
-            this.indent=i;
-            MaillonTree maillon=this.parcourir(this.racine,debut);
-            String chaine=maillon.getValeur();
-            if(chaine.compareTo(",")==0){
-                compteurVirgule++;
-            }
-            if(chaine.compareTo("{")==0){
-
-                boolean milieu=false,reussite=false;
-                int compteurAccolade=0,compteurCrochet=0;
-                for(int j=1;j<=taille;j++){
-                    MaillonTree maillon2=this.parcourir(this.racine,debut);
-                    String chaine2=maillon2.getValeur();
-                    if(maillon2==maillon){
-                        milieu=true;
-                    }else if(maillon2!=maillon && chaine2.compareTo("{")==0){
-                        milieu=false;
-                        compteurAccolade++;
-                    }else if(chaine2.compareTo("[")==0){
-                        milieu=false;
-                        compteurCrochet++;
-                    }else if(chaine2.compareTo("}")==0 && compteurAccolade!=0){
-                        compteurAccolade--;
-                    }else if(chaine2.compareTo("}")==0 && compteurAccolade==0 || compteurCrochet==0){
-                        milieu=false;
-                    }else if(chaine2.compareTo("]")==0 && compteurCrochet!=0){
-                        compteurCrochet--;
-                    }
-                    //this.indent=i;
-                    if (chaine2.compareTo(",")==0){
-                        if (milieu==true && reussite==false){
-                            optimiser(maillon2,compteurVirgule);
-                        }
-                        reussite=true;
-                    }
-                }
-            }
-            if(chaine.compareTo("[")==0){
-                boolean milieu=false,reussite=false;
-                int compteurAccolade=0,compteurCrochet=0;
-                for(int j=1;j<=taille;j++){
-                    MaillonTree maillon2=this.parcourir(this.racine,debut);
-                    String chaine2=maillon2.getValeur();
-                    if(maillon2==maillon){
-                        milieu=true;
-                    }else if(maillon2!=maillon && chaine2.compareTo("[")==0){
-                        milieu=false;
-                        compteurCrochet++;
-                    }else if(chaine2.compareTo("{")==0){
-                        milieu=false;
-                        compteurAccolade++;
-                    }else if(chaine2.compareTo("]")==0 && compteurCrochet!=0){
-                        compteurCrochet--;
-                    }else if(chaine2.compareTo("]")==0 && compteurAccolade==0 || compteurCrochet==0){
-                        milieu=false;
-                    }else if(chaine2.compareTo("}")==0 && compteurAccolade!=0){
-                        compteurAccolade--;
-                    }
-                    //this.indent=i;
-                    if (chaine2.compareTo(",")==0){
-                        if (milieu==true && reussite==false){
-                            optimiser(maillon2,compteurVirgule);
-                        }
-                        reussite=true;
-                    }
-                }
-            }
+        if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
+            this.noeud=this.pile.removeFirst();
+            this.substitution=this.stock.removeFirst();
         }
-        for(int i=1;i<=taille;i++){
-            this.indent=i;
-            MaillonTree maillon=this.parcourir(this.racine,debut);
-            String chaine=maillon.getValeur();
-            if(chaine.compareTo("{")==0){
-                
-                /*for (;maillon.getDroite()!=null;) {
-                    permuter(maillon,maillon.getDroite());
-                }*/
-            }
-            if(chaine.compareTo("[")==0){
-                /*for (;maillon.getDroite()!=null;) {
-                    permuter(maillon,maillon.getDroite());
-                }*/
-            }
-        }
-    }
-
-    public void optimiser(MaillonTree m,int nb){
-        
+        this.taille--;
+        return m;
     }
     /** méthode
      *
@@ -174,117 +67,38 @@ public class JsonTree {
      * @return void,
      * modificateur de l'arbre
      */
-    public MaillonTree parcourir(MaillonTree maillon,int etat){
-        MaillonTree m=null,n=null;
-        if(maillon.getGauche()!=null){
-            m=this.parcourir(maillon.getGauche(),debut);
-            if(m!=null){
-                return m;
-            }
-        }
-        this.indent=this.indent-1;
-        if(this.indent==0){
-            return maillon;
-        }
-        if(maillon.getDroite()!=null){
-            n=this.parcourir(maillon.getDroite(),debut);
-            if(n!=null){
-                return n;
-            }
-        }
-        return null;
+    public boolean isEmpty(){
+        return this.taille==0;
     }
     /** méthode
      *
-     * @param pere maillon de l'arbre, fils maillon de l'arbre,
+     * @param taille  taille de l'arbre,
      * @return void,
-     * permuter deux éléments de l'arbre
+     * modificateur de l'arbre
      */
-    public void permuter(MaillonTree pere, MaillonTree fils){
-        if(pere!=this.racine){
-            if(pere.getPere().getDroite()==pere){
-                pere.getPere().setDroite(fils);
-            }
-            if(pere.getPere().getGauche()==pere){
-                pere.getPere().setGauche(fils);
-            }
-        }else{
-            this.racine=fils;
-        }
-
-        fils.setPere(pere.getPere());
-        pere.setPere(fils);
-        if(pere.getDroite()==fils){
-            if(fils.getGauche()!=null){
-                fils.getGauche().setPere(pere);
-            }
-            pere.setDroite(fils.getGauche());
-            fils.setGauche(pere);
-            return;
-        }
-        if(pere.getGauche()==fils){
-            if(fils.getDroite()!=null){
-                fils.getDroite().setPere(pere);
-            }
-            pere.setGauche(fils.getDroite());
-            fils.setDroite(pere);
-            return;
-        }
-        
+    public void reconstruire(){
+        this.noeud=this.substitution;
+        this.substitution=new MaillonTree();;
     }
     /** méthode
      *
-     * @param pere maillon de l'arbre, fils maillon de l'arbre,
-     * @return void,
-     * ajouter le fils à l'arbre
+     * @param void,
+     * @return String chaine,
+     * renvoie le String qui représente l'arbre
      */
-    public boolean ajouter(MaillonTree pere, MaillonTree fils){
-        if(ajouterGauche(pere,fils)){
-            return true;
+    public void ajouter(MaillonTree m){
+        if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
+            MaillonTree t = new MaillonTree();
+            this.noeud.add(t);
+            this.pile.addFirst(this.noeud);
+            this.noeud=t;
+            this.taille++;
         }
-        if(ajouterDroite(pere,fils)){
-            return true;
+        this.noeud.add(m);
+        if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
+            this.noeud=this.pile.removeFirst();
         }
-        return false;
-    }
-    /** méthode
-     *
-     * @param pere maillon de l'arbre, fils maillon de l'arbre,
-     * @return void,
-     * ajouter le fils à gauche du pere de l'arbre
-     */
-    public boolean ajouterGauche(MaillonTree pere, MaillonTree fils){
-        if(pere.getGauche()==null){
-            pere.setGauche(fils);
-            return true;
-        }
-        return false;
-    }
-    /** méthode
-     *
-     * @param pere maillon de l'arbre, fils maillon de l'arbre,
-     * @return void,
-     * ajouter le fils à droite du pere de l'arbre
-     */
-    public boolean ajouterDroite(MaillonTree pere, MaillonTree fils){
-        if(pere.getDroite()==null){
-            pere.setDroite(fils);
-            return true;
-        }
-        return false;
-    }
-    /** méthode
-     *
-     * @param fils maillon de l'arbre, pere maillon de l'arbre,
-     * @return void,
-     * ajouter le pere au fils de l'arbre
-     */
-    public boolean ajouterPere(MaillonTree fils, MaillonTree pere){
-        if(fils.getPere()==null){
-            fils.setPere(pere);
-            return true;
-        }
-        return false;
+        this.taille++;
     }
     /** méthode
      *
@@ -293,7 +107,9 @@ public class JsonTree {
      * renvoie le String qui représente l'arbre
      */
     public String toString(){
-        return this.afficher(this.racine,0);
+        String chaine=this.afficher(0);
+        this.reconstruire();
+        return chaine;
     }
     /** méthode
      *
@@ -301,21 +117,22 @@ public class JsonTree {
      * @return String chaine,
      * renvoie le String qui représente l'arbre
      */
-    public String afficher(MaillonTree maillon,int i){
-        String indent="";
-        for(int j=0;j<i;j++){
-            indent=indent+"    "; 
+    public String afficher(int i){
+        String chaine="",indent="";
+        MaillonTree m=new MaillonTree(null,null);
+        for(;!this.isEmpty() &&  m.getType()!=JsonType.END_OBJECT && m.getType()!=JsonType.END_ARRAY;){
+            m=this.remove();
+            if(m.isNoeud()){
+                chaine=chaine+this.afficher(i+1)+"\n";
+            }else{
+                for(int j=0;j<i;j++){
+                    indent=indent+"    ";
+                }
+                chaine=chaine+indent+m.getValeur()+"    "+m.getType()+"\n";
+            }
+            indent="";
         }
-        if(maillon.getGauche()==null && maillon.getDroite()==null){
-            return indent+maillon.getValeur()+"\n";
-        }
-        if(maillon.getGauche()==null){
-            return indent+maillon.getValeur()+"\n"+"D "+i+this.afficher(maillon.getDroite(), i+1);
-        }
-        if(maillon.getDroite()==null){
-            return indent+maillon.getValeur()+"\n"+"G "+i+this.afficher(maillon.getGauche(), i+1);
-        }
-        return indent+maillon.getValeur()+"\n"+"K "+i+this.afficher(maillon.getGauche(),i+1)+"L "+i+this.afficher(maillon.getDroite(), i+1);
+        return chaine;
     }
     /** main
      *

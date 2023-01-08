@@ -22,12 +22,12 @@ public interface Maillon {
      * @return String le type,
      * retourne le type du maillon
      */
-    public String getType();
+    public JsonType getType();
     /** méthode
      *
      * @param String le type,
      * @return void,
      * modifie le type du maillon
      */
-    public void setType(String t);
+    public void setType(JsonType t);
 }

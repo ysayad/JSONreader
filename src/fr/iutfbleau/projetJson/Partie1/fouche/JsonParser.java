@@ -1,3 +1,5 @@
+
+
 /**
  * JSonParser
  */
@@ -5,7 +7,6 @@ public class JsonParser {
     private MaillonParser premier;
     private String element;
     private String chaine;
-    private String base;
     /** constructeur
      *
      * @param texte  la chaine à écrire,
@@ -13,7 +14,6 @@ public class JsonParser {
      * construis le JSon parser avec une chaine de charactere
      */
     public JsonParser(String texte) {
-        this.base=texte;
         this.chaine=texte;
         this.premier=this.transformer(this.premier);
     }
@@ -28,10 +28,13 @@ public class JsonParser {
             return maillon;
         }
         this.chaine= this.retirer(this.chaine);
-        String type=this.typer();
-        maillon = new MaillonParser (this.element,type);
-
-        maillon.setSuivant(transformer(maillon.getSuivant()));
+        if(this.element!=null){
+            JsonType type=this.typer();
+            maillon = new MaillonParser (this.element,type);
+            maillon.setSuivant(transformer(maillon.getSuivant()));
+        }else{
+            maillon = transformer(maillon);
+        }
         return maillon;
     }
     /** méthode
@@ -40,22 +43,38 @@ public class JsonParser {
      * @return String le type de l'élément,
      * renvoie le type de l'élément de la chaine
      */
-    public String typer(){
-        if(this.element.compareTo("{")==0 || this.element.compareTo("}")==0 || this.element.compareTo("[")==0 || this.element.compareTo("]")==0 || this.element.compareTo(",")==0 || this.element.compareTo(":")==0){
-            return "separateur";
+    public JsonType typer(){
+        if(this.element.compareTo("{")==0){
+            return JsonType.START_OBJECT;
+        }
+        if(this.element.compareTo("}")==0){
+            return JsonType.END_OBJECT;
+        }
+        if(this.element.compareTo("[")==0){
+            return JsonType.START_ARRAY;
+        }
+        if(this.element.compareTo("]")==0){
+            return JsonType.END_ARRAY;
         }
         if(this.chaine.charAt(0)==':'){
-            return "nom";
+            return JsonType.KEY_NAME;
         }
-        if(this.base.charAt(this.base.length()-this.chaine.length()-this.element.length()-1)==':'){
-            if(this.element.charAt(0)=='"'){
-                return "chaine";
-            }
-            if(this.element.codePointAt(0)>=48 && this.element.codePointAt(0)<=57 || this.element.charAt(0)=='-'){
-                return "nombre";
-            }
+        if(this.element.charAt(0)=='"'){
+            return JsonType.VALUE_STRING;
         }
-        return "autre";
+        if(this.element.codePointAt(0)>=48 && this.element.codePointAt(0)<=57 || this.element.charAt(0)=='-'){
+            return JsonType.VALUE_NUMBER;
+        }
+        if(this.element.compareTo("true")==0){
+            return JsonType.VALUE_TRUE;
+        }
+        if(this.element.compareTo("false")==0){
+            return JsonType.VALUE_FALSE;
+        }
+        if(this.element.compareTo("null")==0){
+            return JsonType.VALUE_NULL;
+        }
+        return null;
     }
     /** méthode
      *
@@ -85,9 +104,12 @@ public class JsonParser {
                 this.element=mot2;
                 return texte.substring(5);
             }
+        }if(texte.charAt(0)!=':' && texte.charAt(0)!=','){
+            char[] tab = {texte.charAt(0)};
+            this.element=new String(tab);
+            return texte.substring(1);
         }
-        char[] tab = {texte.charAt(0)};
-        this.element=new String(tab);
+        this.element=null;
         return texte.substring(1);
     }
     /** méthode
@@ -160,7 +182,7 @@ public class JsonParser {
         if(maillon.getSuivant()==null){
             return maillon.getValeur();
         }
-        return maillon.getValeur()+" "+this.afficher(maillon.getSuivant());
+        return maillon.getValeur()+" "+maillon.getType()+" "+this.afficher(maillon.getSuivant());
     }
     /** méthode
      *
@@ -168,7 +190,7 @@ public class JsonParser {
      * @return Maillon un maillon,
      * retire un maillons du JSonParser dans l'ordre
      */
-    public Maillon remove(){
+    public Maillon next(){
         MaillonParser texte =this.premier;
         this.premier=this.premier.getSuivant();
         return texte;
@@ -179,7 +201,7 @@ public class JsonParser {
      * @return boolean true ou false,
      * vérifie si le JSonParser est vide
      */
-    public boolean isEmpty(){
+    public boolean hasNext(){
         return this.premier==null;
     }
     /** main
@@ -189,7 +211,7 @@ public class JsonParser {
      * appelle le constructeur pour créer un JSonParser
      */
     public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\": -3333.5444E+100,\"values\": [0.5,null,1e1]}");
+        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
         JsonParser j = new JsonParser(chaine);
         System.out.println(j.toString());
     }
