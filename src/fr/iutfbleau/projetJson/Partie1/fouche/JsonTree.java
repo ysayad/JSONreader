@@ -1,3 +1,5 @@
+package fr.iutfbleau.projetJson.Partie1.fouche;
+
 import java.util.*;
 
 /**

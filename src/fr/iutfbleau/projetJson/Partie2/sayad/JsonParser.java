@@ -13,8 +13,8 @@ public class JsonParser {
      * @return void,
      * construis le JSon parser avec une chaine de charactere
      */
-    public JsonParser(String texte) {
-        this.chaine=texte;
+    public JsonParser(JsonString str) {
+        this.chaine=str.toString();
         this.premier=this.transformer(this.premier);
     }
     /** méthode
@@ -210,9 +210,4 @@ public class JsonParser {
      * @return void,
      * appelle le constructeur pour créer un JSonParser
      */
-    public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
-        JsonParser j = new JsonParser(chaine);
-        System.out.println(j.toString());
-    }
 }

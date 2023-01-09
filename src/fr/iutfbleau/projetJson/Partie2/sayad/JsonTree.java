@@ -134,16 +134,4 @@ public class JsonTree {
         }
         return chaine;
     }
-    /** main
-     *
-     * @param args les arguments à la console,
-     * @return void,
-     * appelle le constructeur pour créer un JSonTree
-     */
-    public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
-        JsonParser j = new JsonParser(chaine);
-        JsonTree t = new JsonTree(j);
-        System.out.println(t.toString());
-    }
 }

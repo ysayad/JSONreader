@@ -1,4 +1,4 @@
-package fr.iutfbleau.projetJson.Partie1.fouche;
+
 
 public class JsonFilter {
     public JsonFilter(){
@@ -45,12 +45,5 @@ public class JsonFilter {
             }
         }
         return texte;
-    }
-    public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
-        JsonParser j = new JsonParser(chaine);
-        JsonTree t = new JsonTree(j);
-        JsonFilter r = new JsonFilter();
-        System.out.println(r.filtrer(t));
     }
 }

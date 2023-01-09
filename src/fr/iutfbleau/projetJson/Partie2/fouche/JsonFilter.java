@@ -1,4 +1,4 @@
-package fr.iutfbleau.projetJson.Partie1.fouche;
+
 
 public class JsonFilter {
     public JsonFilter(){
