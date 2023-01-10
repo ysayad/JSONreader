@@ -26,3 +26,5 @@ replay_pid*
 
 #fichiers temporaire des IDE
 .vscode
+.vs
+.idea
