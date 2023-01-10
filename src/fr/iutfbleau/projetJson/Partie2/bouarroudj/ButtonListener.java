@@ -8,10 +8,12 @@ import java.awt.*;
 public class ButtonListener implements MouseListener{
     JButton button;
     JPanel buttonpannel;
+    JFrame window;
 
-    public ButtonListener(JButton button, JPanel buttonpannel) {
+    public ButtonListener(JButton button, JPanel buttonpannel, JFrame window) {
         this.button = button;
         this.buttonpannel = buttonpannel;
+        this.window = window;
     }
 
 
@@ -21,6 +23,20 @@ public class ButtonListener implements MouseListener{
         if (this.button.getName().equals("Quitter")){
             System.exit(1);
         }
+
+        if (this.button.getName().equals("Ouvrir un fichier")){
+            JDialog dialog = new JDialog(this.window, "Ouvrir un fichier");
+            JLabel desc = new JLabel("Saisir un url ");
+
+            dialog.setSize(500, 600);
+            dialog.setModal(true);
+
+
+            dialog.setLocationRelativeTo(null);
+            dialog.setResizable(false);
+            dialog.setVisible(true);
+        }
+
     }
 
     public void mouseEntered(MouseEvent e) {
