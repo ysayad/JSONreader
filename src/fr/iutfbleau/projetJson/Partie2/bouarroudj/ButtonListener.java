@@ -18,6 +18,14 @@ public class ButtonListener implements MouseListener{
         this.window = window;
     }
 
+    public void refresh(){
+        this.window.remove(this.button);
+        String test = this.button.getName();
+        this.button = new JButton("test");
+        this.button.setName(test);
+        this.window.add(this.button);
+    }
+
 
 
     public void mouseClicked(MouseEvent e) {
@@ -27,33 +35,82 @@ public class ButtonListener implements MouseListener{
         }
 
         if (this.button.getName().equals("Ouvrir un fichier")){
+
+
+
             JDialog dialog = new JDialog(this.window, "Ouvrir un fichier");
             JLabel desc = new JLabel("Saisir un url ");
+            JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
 
+
+            JPanel rafraichirpanel = new JPanel();
+            GridLayout gridLayout = new GridLayout(1,1);
+            gridLayout.setHgap(50);
+            gridLayout.setVgap(0);
+            rafraichirpanel.setLayout(gridLayout);
+            JButton rafraichir = new JButton("Rafraichir");
+            rafraichir.setFont(new Font("Verdana", Font.PLAIN, 15));
+            rafraichir.setName("Parcourir");
+            rafraichir.setBorderPainted(true);
+            rafraichir.setFocusPainted(false);
+            rafraichir.setHorizontalAlignment(SwingConstants.LEFT);
+            rafraichir.setContentAreaFilled(false);
+            rafraichirpanel.setBackground(Color.BLACK);
+            rafraichir.setForeground(Color.WHITE);
+            rafraichirpanel.add(rafraichir);
+            rafraichir.addMouseListener(new RafraichirListener(chemin,rafraichir,rafraichirpanel,window));
+
+
+
+            JPanel parcourirpanel = new JPanel();
+            GridLayout gridLayout2 = new GridLayout(1,1);
+            gridLayout2.setHgap(50);
+            gridLayout2.setVgap(0);
+            parcourirpanel.setLayout(gridLayout2);
+            JButton parcourir = new JButton("Parcourir");
+            parcourir.setFont(new Font("Verdana", Font.PLAIN, 15));
+            parcourir.setName("Parcourir");
+            parcourir.setBorderPainted(true);
+            parcourir.setFocusPainted(false);
+            parcourir.setHorizontalAlignment(SwingConstants.LEFT);
+            parcourir.setContentAreaFilled(false);
+            parcourirpanel.setBackground(Color.BLACK);
+            parcourir.setForeground(Color.WHITE);
+            parcourirpanel.add(parcourir);
+            parcourir.addMouseListener(new ParcourirListener(chemin,parcourir,parcourirpanel,window));
+
+
+
+
+
+            JPanel test = new JPanel();
+            test.setLayout(new GridLayout(1,3));
+            test.add(chemin);
+            test.add(parcourirpanel);
+            test.add(rafraichirpanel);
+            dialog.add(test);
+            //chemin.addMouseListener(new ParcourirListener(chemin,window));
             dialog.setSize(500, 600);
-            dialog.setModal(true);
 
+            dialog.setModal(true);
 
             dialog.setLocationRelativeTo(null);
             dialog.setResizable(false);
             dialog.setVisible(true);
+
+
         }
 
-        JFileChooser choix_fichier = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        choix_fichier.setDialogTitle("Choisissez un fichier : ");
-        choix_fichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        choix_fichier.addChoosableFileFilter(new FileNameExtensionFilter("json", "json"));
-
-
-        int res = choix_fichier.showOpenDialog(null);
-
-        if (res == JFileChooser.APPROVE_OPTION) {
-            File file = choix_fichier.getSelectedFile();
-            System.out.println(file.getAbsolutePath());
+        if (this.button.getName().equals("Tout deplier")){
+            //le code pour tout deplier
         }
-
-
-
+        if (this.button.getName().equals("Tout plier")){
+            //le code pour tout plier
+        }
+        if (this.button.getName().equals("Rafraichir")){
+            //le code pour rafraichir
+        }
+        //refresh();
     }
 
     public void mouseEntered(MouseEvent e) {

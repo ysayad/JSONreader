@@ -55,26 +55,26 @@ Cette méthode permet de rajouter un panneau vide utile pour espacer les boutons
     public JPanel drawMenu(){
         //this.menu.setResizable(false);
 
-        
 
 
 
 
 
-        this.menu.add(this.vide());
+
         this.menu.add(this.vide());
         this.menu.add(this.vide());
         this.menu.add(this.drawButton("Ouvrir un fichier"));
         this.menu.add(this.vide());
         this.menu.add(this.drawButton("Tout deplier"));
 
-
+        this.menu.add(this.vide());
+        this.menu.add(this.drawButton("Tout plier"));
 
         
         this.menu.add(this.vide());
-        this.menu.add(this.drawButton("Tout plier"));
+        this.menu.add(this.drawButton("Rafraichir"));
         this.menu.add(this.vide());
-        this.menu.add(this.vide());
+
         this.menu.add(this.vide());
 
         this.menu.add(this.drawButton("Quitter"));
