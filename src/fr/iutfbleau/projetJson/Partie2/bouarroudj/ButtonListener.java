@@ -1,10 +1,12 @@
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import java.awt.Cursor;
 import java.awt.*;
-
-
+import java.io.File;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileFilter;
 public class ButtonListener implements MouseListener{
     JButton button;
     JPanel buttonpannel;
@@ -36,6 +38,21 @@ public class ButtonListener implements MouseListener{
             dialog.setResizable(false);
             dialog.setVisible(true);
         }
+
+        JFileChooser choix_fichier = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        choix_fichier.setDialogTitle("Choisissez un fichier : ");
+        choix_fichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        choix_fichier.addChoosableFileFilter(new FileNameExtensionFilter("json", "json"));
+
+
+        int res = choix_fichier.showOpenDialog(null);
+
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File file = choix_fichier.getSelectedFile();
+            System.out.println(file.getAbsolutePath());
+        }
+
+
 
     }
 
