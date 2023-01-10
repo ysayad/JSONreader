@@ -1,5 +1,4 @@
 
-
 /**
  * JSonParser
  */
@@ -19,7 +18,7 @@ public class JsonParser {
     }
     /** méthode
      *
-     * @param maillon un maillon qui sera modifier,
+     * @param MaillonParser un maillon qui sera modifier,
      * @return MaillonParser le premier maillon de la chaine,
      * construis et affiche la fenetre
      */

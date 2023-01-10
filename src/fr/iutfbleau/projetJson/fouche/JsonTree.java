@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 
 /**
@@ -8,7 +10,10 @@ public class JsonTree {
     private MaillonTree substitution;
     private Deque<MaillonTree> pile;
     private Deque<MaillonTree> stock;
+    private List<MaillonTree> dico;
+    private List<Integer> tab;
     private int taille;
+    private int seuil;
     /** constructeur
      *
      * @param liste  l'arbre à faire,
@@ -18,10 +23,13 @@ public class JsonTree {
     public JsonTree(JsonParser liste){
         this.pile=new ArrayDeque<MaillonTree>();
         this.stock=new ArrayDeque<MaillonTree>();
+        this.dico = new ArrayList<MaillonTree>();
+        this.tab = new ArrayList<Integer>();
         this.noeud=new MaillonTree();
         this.substitution=new MaillonTree();
         this.taille=0;
         initialiser(liste);
+        this.seuil=this.taille;
     }
     /** méthode
      *
@@ -41,14 +49,36 @@ public class JsonTree {
     }
     /** méthode
      *
-     * @param taille  taille de l'arbre,
+     * @param void,
      * @return void,
-     * modificateur de l'arbre
+     * modifie l'arbre en retirant tous les éléments et en le reconstruisant 
+     */
+    public void modifier(){
+        for(;!this.isEmpty();){
+            this.remove();
+        }
+        this.reconstruire();
+    }
+    /** méthode
+     *
+     * @param void,
+     * @return MaillonTree l'élément enlevé,
+     * retire un élément de l'arbre
      */
     public MaillonTree remove(){
         MaillonTree m = this.noeud.remove();
         this.substitution.add(m);
         if(m.isNoeud()){
+            for(int i=0;i<this.dico.size();i++){
+                if(this.dico.get(i).equals(m)){
+                    if(this.tab.get(i)==0){
+                        m.setType(JsonType.OPEN);
+                    }
+                    if(this.tab.get(i)==1){
+                        m.setType(JsonType.CLOSE);
+                    }
+                }
+            }
             this.pile.addFirst(this.noeud);
             this.stock.addFirst(this.substitution);
             this.noeud=m;
@@ -63,32 +93,42 @@ public class JsonTree {
     }
     /** méthode
      *
-     * @param taille  taille de l'arbre,
-     * @return void,
-     * modificateur de l'arbre
+     * @param void,
+     * @return boolean arbre vide,
+     * vérifie si l'arbre est vide
      */
     public boolean isEmpty(){
         return this.taille==0;
     }
     /** méthode
      *
-     * @param taille  taille de l'arbre,
+     * @param void,
      * @return void,
-     * modificateur de l'arbre
+     * reconstruit l'arbre
      */
     public void reconstruire(){
+        this.taille=this.seuil;
         this.noeud=this.substitution;
-        this.substitution=new MaillonTree();;
+        this.substitution=new MaillonTree();
     }
     /** méthode
      *
-     * @param void,
-     * @return String chaine,
-     * renvoie le String qui représente l'arbre
+     * @param MaillonTree m le maillon à ajouter,
+     * @return void,
+     * ajoute un élément à l'arbre
      */
     public void ajouter(MaillonTree m){
         if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
             MaillonTree t = new MaillonTree();
+            if(m.getType()==JsonType.START_OBJECT){
+                t.setValeur("{...}");
+            }
+            if(m.getType()==JsonType.START_ARRAY){
+                t.setValeur("[...]");
+            }
+            t.setType(JsonType.OPEN);
+            this.dico.add(t);
+            this.tab.add(0);
             this.noeud.add(t);
             this.pile.addFirst(this.noeud);
             this.noeud=t;
@@ -102,12 +142,21 @@ public class JsonTree {
     }
     /** méthode
      *
+     * @param int i le numero du noeud dans l'ordre,
+     * @return void,
+     * modifie l'ouverture d'un noeud
+     */
+    public void changement(int i){
+        this.tab.set(i,this.tab.get(i)+1%2);
+    }
+    /** méthode
+     *
      * @param void,
      * @return String chaine,
      * renvoie le String qui représente l'arbre
      */
     public String toString(){
-        String chaine=this.afficher(0);
+        String chaine=this.afficher(this.noeud,0);
         this.reconstruire();
         return chaine;
     }
@@ -117,13 +166,21 @@ public class JsonTree {
      * @return String chaine,
      * renvoie le String qui représente l'arbre
      */
-    public String afficher(int i){
+    public String afficher(MaillonTree maillon,int i){
         String chaine="",indent="";
         MaillonTree m=new MaillonTree(null,null);
-        for(;!this.isEmpty() &&  m.getType()!=JsonType.END_OBJECT && m.getType()!=JsonType.END_ARRAY;){
-            m=this.remove();
+        for(;!maillon.isEmpty() &&  m.getType()!=JsonType.END_OBJECT && m.getType()!=JsonType.END_ARRAY;){
+            m=maillon.remove();
             if(m.isNoeud()){
-                chaine=chaine+this.afficher(i+1)+"\n";
+                if(m.getType()==JsonType.OPEN){
+                    chaine=chaine+this.afficher(m,i+1)+"\n";
+                }
+                if(m.getType()==JsonType.CLOSE){
+                    for(int j=0;j<i;j++){
+                        indent=indent+"    ";
+                    }
+                    chaine=chaine+indent+m.getValeur()+"\n";
+                }
             }else{
                 for(int j=0;j<i;j++){
                     indent=indent+"    ";
@@ -133,6 +190,15 @@ public class JsonTree {
             indent="";
         }
         return chaine;
+    }
+    /** méthode
+     *
+     * @param void,
+     * @return MaillonTree noeud de l'arbre en cours de maniement,
+     * renvoie le noeud de l'arbre
+     */
+    public MaillonTree getNoeud(){
+        return this.noeud;
     }
     /** main
      *

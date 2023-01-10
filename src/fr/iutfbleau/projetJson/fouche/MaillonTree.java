@@ -1,4 +1,4 @@
-package fr.iutfbleau.projetJson.Partie1.fouche;
+
 import java.util.*;
 /**
  * MaillonTree
@@ -22,7 +22,7 @@ public class MaillonTree implements Maillon{
      *
      * @param void,
      * @return void,
-     * créer un maillon
+     * créer un noeud
      */
     public MaillonTree(){
         this.valeur=null;
@@ -32,8 +32,8 @@ public class MaillonTree implements Maillon{
     /** méthode
      *
      * @param void,
-     * @return String le mailllon gauche,
-     * retourne le mailllon gauche du maillon
+     * @return MaillonTree le dernier maillon de la file,
+     * renvoie le dernier maillon de la file
      */
     public MaillonTree remove(){
         return this.file.remove();
@@ -41,8 +41,8 @@ public class MaillonTree implements Maillon{
     /** méthode
      *
      * @param void,
-     * @return String le mailllon gauche,
-     * retourne le mailllon gauche du maillon
+     * @return boolean file vide,
+     * vérifie si la file est vide
      */
     public boolean isEmpty(){
         return this.file.isEmpty();
@@ -50,17 +50,17 @@ public class MaillonTree implements Maillon{
      /** méthode
      *
      * @param void,
-     * @return String le mailllon gauche,
-     * retourne le mailllon gauche du maillon
+     * @return boolean noeud,
+     * vérifie si le maillon est un noeud
      */
     public boolean isNoeud(){
         return this.file!=null;
     }
     /** méthode
      *
-     * @param String le mailllon gauche,,
+     * @param MaillonTree le maillon à ajouter,
      * @return void,
-     * modifie le mailllon gauche, du maillon
+     * ajoute un maillon à la file
      */
     public void add(MaillonTree m){
         this.file.add(m);

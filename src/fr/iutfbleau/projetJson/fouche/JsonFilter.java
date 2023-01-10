@@ -2,17 +2,32 @@
 public class JsonFilter {
     private JsonTree arbre;
     private int compte;
+    /** constructeur
+     *
+     * @param JsonTree l'arbre,
+     * @return void,
+     * constructeur du filtre
+     */
     public JsonFilter(JsonTree tree){
         this.arbre = tree;
         this.compte=0;
     }
-
+    /** méthode
+     *
+     * @param void,
+     * @return String la chaine représentant les filtres,
+     * renvoie la chaine à afficher
+     */
     public String toString(){
         String chaine=this.filtrer(this.arbre.getNoeud());
         return chaine;
     }
-
-
+    /** méthode
+     *
+     * @param MaillonTree le noeud que l'on filtre,
+     * @return String la chaine filtrée,
+     * renvoie la chaine qui à été filtrer
+     */
     public String filtrer(MaillonTree noeud){
         String texte="",indent="";
         MaillonTree m=null,souvenir=new MaillonTree(null,null);
@@ -64,6 +79,12 @@ public class JsonFilter {
         }
         return texte;
     }
+    /** main
+     *
+     * @param args liste des arguments à la console,
+     * @return void,
+     * lance le constructeur
+     */
     public static void main(String[] args) {
         String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
         JsonParser j = new JsonParser(chaine);
