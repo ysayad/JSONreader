@@ -1,16 +1,18 @@
-package fr.iutfbleau.projetJson.Partie1.sayad;
+package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+/**
+ * Classe qui transforme un chemin ou URL json en chaîne de caractère
+ */
 
 public class JsonString{
     private String origin;
     private String str;
 
-    // Constructeur qui génère le string
     public JsonString(String path){
         this.origin = path;
 

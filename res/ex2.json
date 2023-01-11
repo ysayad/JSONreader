@@ -1,0 +1,16 @@
+{
+    "étudiants": [
+       {
+          "nom": "Alice",
+          "note_moyenne": 17.5
+       },
+       {
+          "nom": "Bob",
+          "note_moyenne": 15.0
+       },
+       {
+          "nom": "Charlie",
+          "note_moyenne": 20.0
+       }
+    ]
+ }
