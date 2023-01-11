@@ -2,7 +2,7 @@
 /**
  * JSonParser
  */
-public class JsonParser {
+public class JsonParser implements Parser{
     private MaillonParser premier;
     private String element;
     private String chaine;
