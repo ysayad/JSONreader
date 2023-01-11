@@ -9,13 +9,13 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.*;
 import javax.swing.filechooser.FileFilter;
-public class RafraichirListener implements MouseListener{
+public class OkListener implements MouseListener{
     JButton button;
     JPanel buttonpannel;
     JFrame window;
     JTextField searchbar;
 
-    public RafraichirListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window) {
+    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window) {
         this.button = button;
         this.buttonpannel = buttonpannel;
         this.window = window;
@@ -31,11 +31,15 @@ public class RafraichirListener implements MouseListener{
     }
 
     public void mouseEntered(MouseEvent e) {
+        this.button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.button.setForeground(Color.BLACK);
+        this.buttonpannel.setBackground(Color.WHITE);
 
     }
 
     public void mouseExited(MouseEvent e) {
-
+        this.button.setForeground(Color.WHITE);
+        this.buttonpannel.setBackground(Color.BLACK);
     }
 
     public void mousePressed(MouseEvent e) {}

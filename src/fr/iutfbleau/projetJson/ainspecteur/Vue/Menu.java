@@ -64,7 +64,7 @@ Cette méthode permet de rajouter un panneau vide utile pour espacer les boutons
 
         this.menu.add(this.vide());
         this.menu.add(this.vide());
-        this.menu.add(this.drawButton("Ouvrir un fichier"));
+        this.menu.add(this.drawButton("Afficher la version PHP"));
         this.menu.add(this.vide());
         this.menu.add(this.drawButton("Tout deplier"));
 
@@ -73,7 +73,7 @@ Cette méthode permet de rajouter un panneau vide utile pour espacer les boutons
 
         
         this.menu.add(this.vide());
-        this.menu.add(this.drawButton("Rafraichir"));
+        this.menu.add(this.vide());
         this.menu.add(this.vide());
 
         this.menu.add(this.vide());

@@ -37,7 +37,61 @@ public class Fenetre {
 
 
         Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
-        fenetre.add(reader.drawDisplay(),BorderLayout.CENTER);
+        JPanel page = new JPanel(new BorderLayout());
+        page.add(reader.drawDisplay());
+
+
+        JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+        chemin.addMouseListener(new CheminListener(chemin));
+
+        JPanel okpanel = new JPanel();
+        GridLayout gridLayout = new GridLayout(1,1);
+        gridLayout.setHgap(50);
+        gridLayout.setVgap(0);
+        okpanel.setLayout(gridLayout);
+        JButton ok = new JButton("ok");
+        ok.setFont(new Font("Verdana", Font.PLAIN, 15));
+        ok.setName("ok");
+        ok.setBorderPainted(true);
+        ok.setFocusPainted(false);
+        ok.setHorizontalAlignment(SwingConstants.LEFT);
+        ok.setContentAreaFilled(false);
+        okpanel.setBackground(Color.BLACK);
+        ok.setForeground(Color.WHITE);
+        okpanel.add(ok);
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre));
+
+
+
+        JPanel parcourirpanel = new JPanel();
+        GridLayout gridLayout2 = new GridLayout(1,1);
+        gridLayout2.setHgap(50);
+        gridLayout2.setVgap(0);
+        parcourirpanel.setLayout(gridLayout2);
+        JButton parcourir = new JButton("Parcourir");
+        parcourir.setFont(new Font("Verdana", Font.PLAIN, 15));
+        parcourir.setName("Parcourir");
+        parcourir.setBorderPainted(true);
+        parcourir.setFocusPainted(false);
+        parcourir.setHorizontalAlignment(SwingConstants.LEFT);
+        parcourir.setContentAreaFilled(false);
+        parcourirpanel.setBackground(Color.BLACK);
+        parcourir.setForeground(Color.WHITE);
+        parcourirpanel.add(parcourir);
+        parcourir.addMouseListener(new ParcourirListener(chemin,parcourir,parcourirpanel,fenetre));
+
+
+
+
+
+        JPanel test = new JPanel();
+        test.setLayout(new GridLayout(1,3));
+        test.add(chemin);
+        test.add(okpanel);
+        test.add(parcourirpanel);
+
+        page.add(test,BorderLayout.PAGE_START);
+        fenetre.add(page,BorderLayout.CENTER);
 
 
 

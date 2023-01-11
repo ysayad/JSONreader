@@ -45,11 +45,15 @@ public class ParcourirListener implements MouseListener{
     }
 
     public void mouseEntered(MouseEvent e) {
+        this.button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.button.setForeground(Color.BLACK);
+        this.buttonpannel.setBackground(Color.WHITE);
 
     }
 
     public void mouseExited(MouseEvent e) {
-
+        this.button.setForeground(Color.WHITE);
+        this.buttonpannel.setBackground(Color.BLACK);
     }
 
     public void mousePressed(MouseEvent e) {}
