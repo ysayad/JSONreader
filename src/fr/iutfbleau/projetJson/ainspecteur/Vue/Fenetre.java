@@ -37,9 +37,12 @@ public class Fenetre {
 
 
         Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
-        JPanel page = new JPanel(new BorderLayout());
-        page.add(reader.drawDisplay());
+        JPanel readerpanel = new JPanel();
 
+        JPanel page = new JPanel(new BorderLayout());
+
+        readerpanel.add(reader.drawDisplay());
+        page.add(readerpanel);
 
         JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
         chemin.addMouseListener(new CheminListener(chemin));
@@ -59,7 +62,7 @@ public class Fenetre {
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page));
 
 
 

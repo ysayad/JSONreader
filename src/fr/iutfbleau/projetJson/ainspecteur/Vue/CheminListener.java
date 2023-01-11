@@ -5,11 +5,16 @@ import java.awt.*;
 
 public class CheminListener implements MouseListener {
     JTextField searchbar;
-    int val;
+    public int val;
 
     public CheminListener(JTextField searchbar) {
         this.searchbar = searchbar;
         this.val = 0;
+    }
+
+    public CheminListener(JTextField searchbar, int val) {
+        this.searchbar = searchbar;
+        this.val = val;
     }
 
     public void mouseClicked(MouseEvent e) {

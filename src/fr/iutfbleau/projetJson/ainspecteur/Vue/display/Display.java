@@ -11,7 +11,7 @@ public class Display extends JFrame {
     JPanel menu;
     String content;
     JFrame window;
-    String path;
+    public String path;
 
     JsonTree tree;
 
