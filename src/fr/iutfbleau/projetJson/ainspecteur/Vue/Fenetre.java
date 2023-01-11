@@ -1,8 +1,11 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Vue;
 
+import src.fr.iutfbleau.projetJson.ainspecteur.Vue.display.Display;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.UIManager.*;
+
+
 
 
 
@@ -33,9 +36,8 @@ public class Fenetre {
         fenetre.add(header, BorderLayout.PAGE_START);
 
 
-        JPanel reader = new JPanel();
-        reader.setBackground(Color.GRAY);
-        fenetre.add(reader);
+        Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
+        fenetre.add(reader.drawDisplay(),BorderLayout.CENTER);
 
 
 

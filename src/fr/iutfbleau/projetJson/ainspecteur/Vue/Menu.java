@@ -1,5 +1,4 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Vue;
-
 import java.awt.*;
 import javax.swing.*;
 
