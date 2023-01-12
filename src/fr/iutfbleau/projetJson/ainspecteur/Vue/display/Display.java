@@ -48,7 +48,6 @@ public class Display extends JFrame {
 
 
         while (!tree.isEmpty()) {
-            cpt++;
             MaillonTree token = tree.remove();
             //System.out.println(token.getValeur() + " " + token.getType());
 
@@ -58,8 +57,12 @@ public class Display extends JFrame {
 
             switch (token.getType()) {
                 case OPEN:
+                    cpt++;
                     break;
                 case KEY_NAME:
+                    for (int i = 0; i < cpt; i++) {
+                        addColoredText(ligne, "     ", Color.BLACK);
+                    }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     JTextPane pts = new JTextPane();
                     pts.setEditable(false);
@@ -68,10 +71,31 @@ public class Display extends JFrame {
                     lignes.add(pts);
                     break;
                 case CLOSE:
+                    cpt--;
+                    ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
+                    break;
                 case START_ARRAY:
                 case START_OBJECT:
+                    cpt++;
+                    for (int i = 0; i < cpt; i++) {
+                        addColoredText(ligne, "     ", Color.BLACK);
+                    }
                     ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
-            
+                    addColoredText(ligne, token.getValeur(), pickColor(token));
+                    lignes.add(ligne);
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    vertical.add(lignes);
+                    break;
+                case END_ARRAY:
+                case END_OBJECT:
+                    for (int i = 0; i < cpt; i++) {
+                        addColoredText(ligne, "     ", Color.BLACK);
+                    }
+                    addColoredText(ligne, token.getValeur(), pickColor(token));
+                    lignes.add(ligne);
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    vertical.add(lignes);
+                    break;
                 default:
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
