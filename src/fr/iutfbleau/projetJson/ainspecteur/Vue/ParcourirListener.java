@@ -38,7 +38,8 @@ public class ParcourirListener implements MouseListener{
         if (res == JFileChooser.APPROVE_OPTION) {
             File file = choix_fichier.getSelectedFile();
             System.out.println(file.getAbsolutePath());
-            this.searchbar.setText("file:///" + file.getAbsolutePath());
+            this.searchbar.setText("file:///" +     file.getAbsolutePath());
+            this.searchbar.setForeground(Color.BLACK);
         }
 
 

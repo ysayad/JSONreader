@@ -16,43 +16,43 @@ public class OkListener implements MouseListener{
     JPanel buttonpannel;
     JFrame window;
     JTextField searchbar;
-
+    JPanel menu;
     JPanel page;
     JPanel display;
     String path;
-    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display) {
+    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display, JPanel menu) {
         this.window = window;
         this.searchbar = searchbar;
         this.page = page;
         this.button = button;
         this.buttonpannel = buttonpannel;
+        this.menu = menu;
         this.display = display;
     }
 
 
     public void refresh(){
-Menu menu = new Menu(this.window);
-        this.window.add(menu.drawMenu(),BorderLayout.LINE_START);
+        Menu menu2 = new Menu(this.window);
+        JPanel zoz = new JPanel();
+        zoz.add(menu2.drawMenu());
+        this.window.add(zoz,BorderLayout.LINE_START);
 
-        JPanel header = new JPanel();
-        header.setBackground(new Color(23, 23, 23));
-        JLabel titre = new JLabel("JReader");
-        titre.setForeground(new Color(200,200,200));
-        header.add(titre);
+
+
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
-        JPanel display = reader.drawDisplay();
+        JPanel display2 = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
-        JPanel page = new JPanel(new BorderLayout());
+        JPanel page2 = new JPanel(new BorderLayout());
 
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
 
         JTextField chemin = new JTextField(this.searchbar.getText());
         chemin.setForeground(Color.BLACK);
-        chemin.addMouseListener(new CheminListener(chemin));
+        chemin.addMouseListener(new CheminListener(chemin,1));
 
         JPanel okpanel = new JPanel();
         GridLayout gridLayout = new GridLayout(1,1);
@@ -69,7 +69,7 @@ Menu menu = new Menu(this.window);
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page,display));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,zoz));
 
 
 
@@ -100,11 +100,9 @@ Menu menu = new Menu(this.window);
         test.add(okpanel);
         test.add(parcourirpanel);
 
-        header.add(titre);
-        this.window.add(header, BorderLayout.PAGE_START);
 
-        display.add(test,BorderLayout.PAGE_START);
-        this.window.add(display,BorderLayout.CENTER);
+        display2.add(test,BorderLayout.PAGE_START);
+        this.window.add(display2,BorderLayout.CENTER);
 
 
 
@@ -114,8 +112,9 @@ Menu menu = new Menu(this.window);
 
 
     public void mouseClicked(MouseEvent e) {
-        this.window.remove(page);
-        this.window.remove(display);
+        this.window.remove(this.menu);
+        this.window.remove(this.page);
+        this.window.remove(this.display);
         this.refresh();
         this.window.invalidate();
         this.window.validate();

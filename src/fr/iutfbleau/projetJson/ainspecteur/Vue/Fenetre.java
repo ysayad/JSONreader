@@ -26,14 +26,11 @@ public class Fenetre {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         Menu menu = new Menu(fenetre);
-        fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
+        JPanel zoz = new JPanel();
+        zoz.add(menu.drawMenu());
+        fenetre.add(zoz,BorderLayout.LINE_START);
 
-        JPanel header = new JPanel();
-        header.setBackground(new Color(23, 23, 23));
-        JLabel titre = new JLabel("JReader");
-        titre.setForeground(new Color(200,200,200));
-        header.add(titre);
-
+  
 
         Display reader = new Display(fenetre, "file:res/ex1.json");
         JPanel display = reader.drawDisplay();
@@ -63,7 +60,7 @@ public class Fenetre {
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, zoz));
 
 
 
@@ -93,10 +90,6 @@ public class Fenetre {
         test.add(chemin);
         test.add(okpanel);
         test.add(parcourirpanel);
-
-        header.add(titre);
-        fenetre.add(header, BorderLayout.PAGE_START);
-
         display.add(test,BorderLayout.PAGE_START);
         fenetre.add(display,BorderLayout.CENTER);
 
