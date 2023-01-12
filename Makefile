@@ -1,6 +1,6 @@
 JC = javac -implicit:none -d build/ -classpath build/ -sourcepath src
-SRC = src/fr/iutfbleau/projetJson/
-BUILD = build/fr/iutfbleau/projetJson/
+SRC = src/fr/iutfbleau/projetJson
+BUILD = build/fr/iutfbleau/projetJson
 
 .PHONY: compile
 compile: 
@@ -24,4 +24,4 @@ run:
 .PHONY : all
 .DEFAULT_GOAL := all
 all: compile jar
-	java -jar Inspecteur.jar file:ex1.json
+	java -jar Inspecteur.jar 'file:///res/ex2.json'

@@ -44,6 +44,7 @@ public class JsonParser {
      * renvoie le type de l'élément de la chaine
      */
     public JsonType typer(){
+        System.out.println(this.element);
         if(this.element.compareTo("{")==0){
             return JsonType.START_OBJECT;
         }
@@ -210,4 +211,11 @@ public class JsonParser {
      * @return void,
      * appelle le constructeur pour créer un JSonParser
      */
+    public static void main(String[] args) {
+        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
+        JsonString str = new JsonString("file:///D:/Desktop/SAE32_2022/res/ex1.json");
+        System.out.println(str.toString());
+        JsonParser j = new JsonParser(str);
+        System.out.println(j.toString());
+    }
 }

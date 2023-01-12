@@ -60,7 +60,7 @@ public class ButtonListener implements MouseListener{
             rafraichirpanel.setBackground(Color.BLACK);
             rafraichir.setForeground(Color.WHITE);
             rafraichirpanel.add(rafraichir);
-            rafraichir.addMouseListener(new RafraichirListener(chemin,rafraichir,rafraichirpanel,window));
+            //rafraichir.addMouseListener(new RafraichirListener(chemin,rafraichir,rafraichirpanel,window));
 
 
 

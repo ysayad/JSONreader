@@ -30,7 +30,7 @@ public class ParcourirListener implements MouseListener{
         JFileChooser choix_fichier = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         choix_fichier.setDialogTitle("Choisissez un fichier : ");
         choix_fichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        choix_fichier.addChoosableFileFilter(new FileNameExtensionFilter("json", "json"));
+        choix_fichier.addChoosableFileFilter(new FileNameExtensionFilter("*.json", "json"));
 
 
         int res = choix_fichier.showOpenDialog(null);
@@ -38,7 +38,7 @@ public class ParcourirListener implements MouseListener{
         if (res == JFileChooser.APPROVE_OPTION) {
             File file = choix_fichier.getSelectedFile();
             System.out.println(file.getAbsolutePath());
-            this.searchbar.setText(file.getAbsolutePath());
+            this.searchbar.setText("file:///" + file.getAbsolutePath());
         }
 
 
