@@ -26,7 +26,9 @@ public class Fenetre {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         Menu menu = new Menu(fenetre);
-        fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
+        JPanel zoz = new JPanel();
+        zoz.add(menu.drawMenu());
+        fenetre.add(zoz,BorderLayout.LINE_START);
 
   
 
@@ -58,7 +60,7 @@ public class Fenetre {
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, zoz));
 
 
 
