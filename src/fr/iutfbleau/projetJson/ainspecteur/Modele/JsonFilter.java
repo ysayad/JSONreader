@@ -49,12 +49,12 @@ public class JsonFilter {
                 }
             }
             if(!m.isNoeud()){
-                if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
-                    this.compte++;
-                }if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
+                if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
                     this.compte--;
                 }for(int i=0;i<this.compte;i++){
                     indent=indent+"    ";
+                }if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
+                    this.compte++;
                 }
                 if((m.getType()==JsonType.VALUE_STRING || m.getType()==JsonType.VALUE_NUMBER || m.getType()==JsonType.VALUE_NULL || m.getType()==JsonType.VALUE_TRUE || m.getType()==JsonType.VALUE_FALSE)&& souvenir.getType()!=JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_ARRAY){
@@ -66,6 +66,10 @@ public class JsonFilter {
                     if(souvenir.getType()!=JsonType.START_OBJECT){
                         texte=texte+",";    
                     }
+                    texte=texte+"\n";
+                    texte=texte+indent;
+                }
+                if(m.getType()==JsonType.START_ARRAY || m.getType()==JsonType.START_OBJECT){
                     texte=texte+"\n";
                     texte=texte+indent;
                 }
