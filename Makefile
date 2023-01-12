@@ -24,4 +24,4 @@ run:
 .PHONY : all
 .DEFAULT_GOAL := all
 all: compile jar
-	java -jar Inspecteur.jar 'file:///res/ex2.json'
+	java -jar Inspecteur.jar 'file:res/ex1.json'
