@@ -16,11 +16,11 @@ public class OkListener implements MouseListener{
     JPanel buttonpannel;
     JFrame window;
     JTextField searchbar;
-    JPanel menu;
+    Menu menu;
     JPanel page;
     JPanel display;
     String path;
-    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display, JPanel menu) {
+    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display, Menu menu) {
         this.window = window;
         this.searchbar = searchbar;
         this.page = page;
@@ -33,9 +33,7 @@ public class OkListener implements MouseListener{
 
     public void refresh(){
         Menu menu2 = new Menu(this.window);
-        JPanel zoz = new JPanel();
-        zoz.add(menu2.drawMenu());
-        this.window.add(zoz,BorderLayout.LINE_START);
+        this.window.add(menu2.drawMenu(),BorderLayout.LINE_START);
 
 
 
@@ -64,12 +62,11 @@ public class OkListener implements MouseListener{
         ok.setName("ok");
         ok.setBorderPainted(true);
         ok.setFocusPainted(false);
-        ok.setHorizontalAlignment(SwingConstants.LEFT);
         ok.setContentAreaFilled(false);
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,zoz));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,menu2));
 
 
 
@@ -83,7 +80,6 @@ public class OkListener implements MouseListener{
         parcourir.setName("Parcourir");
         parcourir.setBorderPainted(true);
         parcourir.setFocusPainted(false);
-        parcourir.setHorizontalAlignment(SwingConstants.LEFT);
         parcourir.setContentAreaFilled(false);
         parcourirpanel.setBackground(Color.BLACK);
         parcourir.setForeground(Color.WHITE);
@@ -95,15 +91,14 @@ public class OkListener implements MouseListener{
 
 
         JPanel test = new JPanel();
-        test.setLayout(new GridLayout(1,3));
+        test.setLayout(new BorderLayout());
         test.add(chemin);
-        test.add(okpanel);
-        test.add(parcourirpanel);
-
-
+        JPanel test2 = new JPanel(new GridLayout(1,2));
+        test2.add(okpanel);
+        test2.add(parcourirpanel);
+        test.add(test2, BorderLayout.EAST);
         display2.add(test,BorderLayout.PAGE_START);
         this.window.add(display2,BorderLayout.CENTER);
-
 
 
 
@@ -112,7 +107,7 @@ public class OkListener implements MouseListener{
 
 
     public void mouseClicked(MouseEvent e) {
-        this.window.remove(this.menu);
+        this.window.remove(this.menu.drawMenu());
         this.window.remove(this.page);
         this.window.remove(this.display);
         this.refresh();

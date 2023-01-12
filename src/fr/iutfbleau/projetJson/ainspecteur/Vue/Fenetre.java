@@ -26,9 +26,7 @@ public class Fenetre {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         Menu menu = new Menu(fenetre);
-        JPanel zoz = new JPanel();
-        zoz.add(menu.drawMenu());
-        fenetre.add(zoz,BorderLayout.LINE_START);
+        fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
 
   
 
@@ -55,12 +53,11 @@ public class Fenetre {
         ok.setName("ok");
         ok.setBorderPainted(true);
         ok.setFocusPainted(false);
-        ok.setHorizontalAlignment(SwingConstants.LEFT);
         ok.setContentAreaFilled(false);
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, zoz));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, menu));
 
 
 
@@ -69,12 +66,13 @@ public class Fenetre {
         gridLayout2.setHgap(50);
         gridLayout2.setVgap(0);
         parcourirpanel.setLayout(gridLayout2);
+
+
         JButton parcourir = new JButton("Parcourir");
         parcourir.setFont(new Font("Verdana", Font.PLAIN, 15));
         parcourir.setName("Parcourir");
         parcourir.setBorderPainted(true);
         parcourir.setFocusPainted(false);
-        parcourir.setHorizontalAlignment(SwingConstants.LEFT);
         parcourir.setContentAreaFilled(false);
         parcourirpanel.setBackground(Color.BLACK);
         parcourir.setForeground(Color.WHITE);
@@ -86,12 +84,15 @@ public class Fenetre {
 
 
         JPanel test = new JPanel();
-        test.setLayout(new GridLayout(1,3));
+        test.setLayout(new BorderLayout());
         test.add(chemin);
-        test.add(okpanel);
-        test.add(parcourirpanel);
+        JPanel test2 = new JPanel(new GridLayout(1,2));
+        test2.add(okpanel);
+        test2.add(parcourirpanel);
+        test.add(test2, BorderLayout.EAST);
         display.add(test,BorderLayout.PAGE_START);
         fenetre.add(display,BorderLayout.CENTER);
+
 
 
 

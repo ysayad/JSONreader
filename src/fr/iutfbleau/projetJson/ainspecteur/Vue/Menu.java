@@ -12,7 +12,12 @@ public class Menu extends JFrame {
         this.window = window;
         this.menu = new JPanel();
         this.menu.setBackground(new Color(43, 43, 43));
-        this.menu.setLayout(new GridLayout(12,1));
+        GridLayout t = new GridLayout(12,1);
+        t.setHgap(0);
+        t.setVgap(0);
+        this.menu.setLayout(t);
+
+
     }
 
 
@@ -83,6 +88,9 @@ Cette méthode permet de rajouter un panneau vide utile pour espacer les boutons
         //this.menu.setResizeVertical(true);
         this.menu.setPreferredSize(new Dimension(300, this.window.getHeight()));
         this.menu.setSize(new Dimension(400, this.window.getHeight()));
+
+
+
 
         return this.menu;
     }
