@@ -1,9 +1,8 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
-
 /**
  * JSonParser
  */
-public class JsonParser {
+public class JsonParser implements Parser{
     private MaillonParser premier;
     private String element;
     private String chaine;
@@ -17,12 +16,11 @@ public class JsonParser {
         this.chaine=texte.toString();
         this.premier=this.transformer(this.premier);
     }
-
     /** constructeur
      *
      * @param texte  la chaine à écrire,
      * @return void,
-     * construis le JSon parser avec un JsonString
+     * construis le JSon parser avec une chaine de charactere
      */
     public JsonParser(String texte) {
         this.chaine=texte;
@@ -221,4 +219,10 @@ public class JsonParser {
      * @return void,
      * appelle le constructeur pour créer un JSonParser
      */
+    public static void main(String[] args) {
+        //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
+        JsonString s = new JsonString(args[0]);
+        JsonParser j = new JsonParser(s);
+        System.out.println(j.toString());
+    }
 }

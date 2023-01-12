@@ -1,6 +1,4 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
-
-
 public class JsonFilter {
     private JsonTree arbre;
     private int compte;
