@@ -37,7 +37,7 @@ public class JsonParser implements Parser{
             return maillon;
         }
         this.chaine= this.retirer(this.chaine);
-        if(this.element!=null){
+        if(this.element!=null && this.element.compareTo(" ")!=0){
             JsonType type=this.typer();
             maillon = new MaillonParser (this.element,type);
             maillon.setSuivant(transformer(maillon.getSuivant()));
