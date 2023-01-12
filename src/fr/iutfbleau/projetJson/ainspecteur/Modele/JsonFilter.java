@@ -1,6 +1,5 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 
-
 public class JsonFilter {
     private JsonTree arbre;
     private int compte;
@@ -80,21 +79,5 @@ public class JsonFilter {
             souvenir=m;
         }
         return texte;
-    }
-    /** main
-     *
-     * @param args liste des arguments à la console,
-     * @return void,
-     * lance le constructeur
-     */
-    public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
-        JsonParser j = new JsonParser(chaine);
-        JsonTree t = new JsonTree(j);
-        t.changement(2);
-        t.modifier();
-        //System.out.println(t.toString());
-        JsonFilter r = new JsonFilter(t);
-        System.out.println(r.toString());
     }
 }

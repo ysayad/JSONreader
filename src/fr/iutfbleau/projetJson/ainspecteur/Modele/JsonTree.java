@@ -1,11 +1,12 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 
+
 import java.util.*;
 
 /**
  * JsonTree
  */
-public class JsonTree {
+public class JsonTree implements Tree{
     private MaillonTree noeud;
     private MaillonTree substitution;
     private Deque<MaillonTree> pile;
@@ -20,7 +21,7 @@ public class JsonTree {
      * @return void,
      * constructeur de l'arbre
      */
-    public JsonTree(JsonParser liste){
+    public JsonTree(Parser liste){
         this.pile=new ArrayDeque<MaillonTree>();
         this.stock=new ArrayDeque<MaillonTree>();
         this.dico = new ArrayList<MaillonTree>();
@@ -37,7 +38,7 @@ public class JsonTree {
      * @return void,
      * initialisateur de l'arbre
      */
-    public void initialiser(JsonParser liste){
+    public void initialiser(Parser liste){
         MaillonTree m=new MaillonTree();
         MaillonTree n=new MaillonTree();
         this.noeud=n;
@@ -200,16 +201,5 @@ public class JsonTree {
     public MaillonTree getNoeud(){
         return this.noeud;
     }
-    /** main
-     *
-     * @param args les arguments à la console,
-     * @return void,
-     * appelle le constructeur pour créer un JSonTree
-     */
-    public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
-        JsonParser j = new JsonParser(chaine);
-        JsonTree t = new JsonTree(j);
-        System.out.println(t.toString());
-    }
+
 }

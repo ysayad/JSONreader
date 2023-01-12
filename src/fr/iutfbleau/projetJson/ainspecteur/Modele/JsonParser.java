@@ -3,7 +3,7 @@ package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 /**
  * JSonParser
  */
-public class JsonParser {
+public class JsonParser implements Parser{
     private MaillonParser premier;
     private String element;
     private String chaine;
@@ -13,19 +13,8 @@ public class JsonParser {
      * @return void,
      * construis le JSon parser avec une chaine de charactere
      */
-    public JsonParser(JsonString texte) {
-        this.chaine=texte.toString();
-        this.premier=this.transformer(this.premier);
-    }
-
-    /** constructeur
-     *
-     * @param texte  la chaine à écrire,
-     * @return void,
-     * construis le JSon parser avec un JsonString
-     */
-    public JsonParser(String texte) {
-        this.chaine=texte;
+    public JsonParser(JsonString str) {
+        this.chaine=str.toString();
         this.premier=this.transformer(this.premier);
     }
     /** méthode
@@ -215,10 +204,5 @@ public class JsonParser {
     public boolean hasNext(){
         return this.premier==null;
     }
-    /** main
-     *
-     * @param args les arguments à la console,
-     * @return void,
-     * appelle le constructeur pour créer un JSonParser
-     */
+
 }
