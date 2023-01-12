@@ -28,12 +28,7 @@ public class Fenetre {
         Menu menu = new Menu(fenetre);
         fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
 
-        JPanel header = new JPanel();
-        header.setBackground(new Color(23, 23, 23));
-        JLabel titre = new JLabel("JReader");
-        titre.setForeground(new Color(200,200,200));
-        header.add(titre);
-
+  
 
         Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
         JPanel display = reader.drawDisplay();
@@ -93,10 +88,6 @@ public class Fenetre {
         test.add(chemin);
         test.add(okpanel);
         test.add(parcourirpanel);
-
-        header.add(titre);
-        fenetre.add(header, BorderLayout.PAGE_START);
-
         display.add(test,BorderLayout.PAGE_START);
         fenetre.add(display,BorderLayout.CENTER);
 

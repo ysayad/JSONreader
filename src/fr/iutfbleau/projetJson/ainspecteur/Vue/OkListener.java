@@ -34,11 +34,8 @@ public class OkListener implements MouseListener{
 Menu menu = new Menu(this.window);
         this.window.add(menu.drawMenu(),BorderLayout.LINE_START);
 
-        JPanel header = new JPanel();
-        header.setBackground(new Color(23, 23, 23));
-        JLabel titre = new JLabel("JReader");
-        titre.setForeground(new Color(200,200,200));
-        header.add(titre);
+
+
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
@@ -52,7 +49,7 @@ Menu menu = new Menu(this.window);
 
         JTextField chemin = new JTextField(this.searchbar.getText());
         chemin.setForeground(Color.BLACK);
-        chemin.addMouseListener(new CheminListener(chemin));
+        chemin.addMouseListener(new CheminListener(chemin,1));
 
         JPanel okpanel = new JPanel();
         GridLayout gridLayout = new GridLayout(1,1);
@@ -100,8 +97,6 @@ Menu menu = new Menu(this.window);
         test.add(okpanel);
         test.add(parcourirpanel);
 
-        header.add(titre);
-        this.window.add(header, BorderLayout.PAGE_START);
 
         display.add(test,BorderLayout.PAGE_START);
         this.window.add(display,BorderLayout.CENTER);
