@@ -42,16 +42,17 @@ public class Display extends JFrame {
         jsp.setBorder(BorderFactory.createEmptyBorder());
         vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
-        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 
 
 
         while (!tree.isEmpty()) {
             MaillonTree token = tree.remove();
-            //System.out.println(token.getValeur() + " " + token.getType());
+            System.out.println(token.getValeur() + " " + token.getType());
 
             JTextPane ligne = new JTextPane();
+            ligne.setBorder(BorderFactory.createEmptyBorder());
             ligne.setEditable(false);
 
 
@@ -65,6 +66,7 @@ public class Display extends JFrame {
                     }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     JTextPane pts = new JTextPane();
+                    pts.setBorder(BorderFactory.createEmptyBorder());
                     pts.setEditable(false);
                     addColoredText(pts, " : ", Color.BLACK);
                     lignes.add(ligne);
@@ -77,13 +79,16 @@ public class Display extends JFrame {
                 case START_ARRAY:
                 case START_OBJECT:
                     cpt++;
-                    for (int i = 0; i < cpt; i++) {
-                        addColoredText(ligne, "     ", Color.BLACK);
+                    if (lignes.getComponentCount() == 0) {
+                        for (int i = 0; i < cpt; i++) {
+                            addColoredText(ligne, "     ", Color.BLACK);
+                        }
                     }
+
                     ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
                     vertical.add(lignes);
                     break;
                 case END_ARRAY:
@@ -93,13 +98,18 @@ public class Display extends JFrame {
                     }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
                     vertical.add(lignes);
                     break;
                 default:
+                    if (lignes.getComponentCount() == 0) {
+                        for (int i = 0; i < cpt; i++) {
+                            addColoredText(ligne, "     ", Color.BLACK);
+                        }
+                    }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
                     vertical.add(lignes);
                     break;
             }
