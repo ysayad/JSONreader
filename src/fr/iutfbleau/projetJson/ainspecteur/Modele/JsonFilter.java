@@ -80,4 +80,18 @@ public class JsonFilter {
         }
         return texte;
     }
+    /** main
+     *
+     * @param args liste des arguments à la console,
+     * @return void,
+     * lance le constructeur
+     */
+    public static void main(String[] args) {
+        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
+        JsonString s = new JsonString(args[0]);
+        JsonParser j = new JsonParser(s.toString());
+        JsonTree t = new JsonTree(j);
+        JsonFilter r = new JsonFilter(t);
+        System.out.println(r.toString());
+    }
 }

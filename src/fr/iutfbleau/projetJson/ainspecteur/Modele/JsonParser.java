@@ -222,7 +222,7 @@ public class JsonParser implements Parser{
     public static void main(String[] args) {
         //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");
         JsonString s = new JsonString(args[0]);
-        JsonParser j = new JsonParser(s);
+        JsonParser j = new JsonParser(s.toString());
         System.out.println(j.toString());
     }
 }
