@@ -30,9 +30,9 @@ public class Fenetre {
 
         JPanel header = new JPanel();
         header.setBackground(new Color(23, 23, 23));
-        //JLabel titre = new JLabel("JReader");
-        //titre.setForeground(new Color(200,200,200));
-
+        JLabel titre = new JLabel("JReader");
+        titre.setForeground(new Color(200,200,200));
+        header.add(titre);
 
 
         Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
@@ -43,9 +43,9 @@ public class Fenetre {
 
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
-        fenetre.add(display,BorderLayout.CENTER);
 
         JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+        chemin.setForeground(Color.GRAY);
         chemin.addMouseListener(new CheminListener(chemin));
 
         JPanel okpanel = new JPanel();
@@ -94,11 +94,11 @@ public class Fenetre {
         test.add(okpanel);
         test.add(parcourirpanel);
 
-        // header.add(test, BorderLayout.WEST);
-        // fenetre.add(header, BorderLayout.PAGE_START);
+        header.add(titre);
+        fenetre.add(header, BorderLayout.PAGE_START);
 
-        page.add(test,BorderLayout.PAGE_START);
-        fenetre.add(page,BorderLayout.PAGE_START);
+        display.add(test,BorderLayout.PAGE_START);
+        fenetre.add(display,BorderLayout.CENTER);
 
 
 

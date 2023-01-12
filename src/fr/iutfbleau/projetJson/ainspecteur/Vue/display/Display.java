@@ -50,7 +50,7 @@ public class Display extends JFrame {
         while (!tree.isEmpty()) {
             cpt++;
             MaillonTree token = tree.remove();
-            System.out.println(token.getValeur() + " " + token.getType());
+            //System.out.println(token.getValeur() + " " + token.getType());
 
             JTextPane ligne = new JTextPane();
             ligne.setEditable(false);
