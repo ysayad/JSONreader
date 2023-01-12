@@ -37,7 +37,7 @@ public class CheminListener implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (this.val == 0) {
+        if (this.val == 0 && (this.searchbar.getText().equals("") || (this.searchbar.getText().equals("Saisir l'emplacement du fichier")))) {
             this.searchbar.setFocusable(true);
             this.searchbar.setText("");
             this.searchbar.setForeground(Color.BLACK);

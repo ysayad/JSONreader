@@ -32,28 +32,66 @@ public class Display extends JFrame {
     public JPanel drawDisplay(){
         JPanel compteur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         int cpt = 0;
-        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        compteur.setPreferredSize(new Dimension(50, this.window.getHeight()));
-        lignes.setPreferredSize(new Dimension(900, this.window.getHeight()));
+        
+        JPanel vertical = new JPanel();
+        JScrollPane jsp = new JScrollPane(vertical);
+        jsp.setSize(vertical.getSize());
+        jsp.setHorizontalScrollBarPolicy(jsp.HORIZONTAL_SCROLLBAR_NEVER);
+        jsp.getVerticalScrollBar().setUnitIncrement(16);
+        jsp.setBorder(BorderFactory.createEmptyBorder());
+        vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
+
+        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+
+
 
 
         while (!tree.isEmpty()) {
             cpt++;
             MaillonTree token = tree.remove();
+
+
             JTextPane ligne = new JTextPane();
-            addColoredText(ligne, token.getValeur(), pickColor(token));
-            System.out.println(token.getValeur() + " " + token.getType().toString());
             ligne.setEditable(false);
-            lignes.add(ligne);
+
+
+            switch (token.getType()) {
+                case KEY_NAME:
+                    addColoredText(ligne, token.getValeur(), pickColor(token));
+                    JTextPane pts = new JTextPane();
+                    pts.setEditable(false);
+                    addColoredText(pts, " : ", Color.BLACK);
+                    lignes.add(ligne);
+                    lignes.add(pts);
+                    break;
+
+                case OPEN:
+                case CLOSE:
+                case START_ARRAY:
+                case START_OBJECT:
+                    ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
+            
+                default:
+                    addColoredText(ligne, token.getValeur(), pickColor(token));
+                    lignes.add(ligne);
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+                    vertical.add(lignes);
+                    break;
+            }
+
+
             // JTextArea numero = new JTextArea(Integer.toString(cpt));
             // numero.setEditable(false);
             // numero.setBorder(null);
             // compteur.add(numero);
         }
 
+        compteur.setPreferredSize(new Dimension(50, this.window.getHeight()));
+        lignes.setPreferredSize(new Dimension(900, this.window.getHeight()));
+
         this.menu.add(compteur, BorderLayout.WEST);
-        this.menu.add(lignes, BorderLayout.CENTER);
+        this.menu.add(jsp, BorderLayout.CENTER);
         this.menu.setPreferredSize(new Dimension(1000, this.window.getHeight()));
         return this.menu;
     }

@@ -34,19 +34,21 @@ public class OkListener implements MouseListener{
 
         JPanel header = new JPanel();
         header.setBackground(new Color(23, 23, 23));
-        JLabel titre = new JLabel("JReader");
-        titre.setForeground(new Color(200,200,200));
-        header.add(titre, BorderLayout.WEST);
-        this.window.add(header, BorderLayout.PAGE_START);
+        // JLabel titre = new JLabel("JReader");
+        // titre.setForeground(new Color(200,200,200));
+        // header.add(titre, BorderLayout.WEST);
+        // this.window.add(header, BorderLayout.PAGE_START);
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
-        JPanel readerpanel = new JPanel();
+        //JPanel readerpanel = new JPanel();
 
         JPanel page = new JPanel(new BorderLayout());
 
-        readerpanel.add(reader.drawDisplay());
-        page.add(readerpanel);
+        // readerpanel.add(reader.drawDisplay());
+        // page.add(readerpanel);
+
+        window.add(reader.drawDisplay(),BorderLayout.CENTER);
 
         JTextField chemin = new JTextField(this.searchbar.getText());
         chemin.addMouseListener(new CheminListener(chemin,1));
@@ -98,7 +100,9 @@ public class OkListener implements MouseListener{
         test.add(parcourirpanel);
 
         page.add(test,BorderLayout.PAGE_START);
-        this.window.add(page,BorderLayout.CENTER);
+        this.window.add(page,BorderLayout.PAGE_START);
+        // page.add(test,BorderLayout.PAGE_START);
+        // this.window.add(page,BorderLayout.CENTER);
     }
 
 
