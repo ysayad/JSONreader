@@ -1,5 +1,6 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 
+
 public interface Tree {
     /** méthode
      *

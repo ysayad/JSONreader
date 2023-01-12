@@ -32,7 +32,7 @@ public class Fenetre {
 
   
 
-        Display reader = new Display(fenetre, "http://ergast.com/api/f1/2004/1/results.json");
+        Display reader = new Display(fenetre, "file:res/ex1.json");
         JPanel display = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
