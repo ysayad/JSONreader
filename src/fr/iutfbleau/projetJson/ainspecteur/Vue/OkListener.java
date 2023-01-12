@@ -18,13 +18,15 @@ public class OkListener implements MouseListener{
     JTextField searchbar;
 
     JPanel page;
+    JPanel display;
     String path;
-    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page) {
+    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display) {
         this.window = window;
         this.searchbar = searchbar;
         this.page = page;
         this.button = button;
         this.buttonpannel = buttonpannel;
+        this.display = display;
     }
 
 
@@ -41,6 +43,7 @@ public class OkListener implements MouseListener{
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
+        JPanel display = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
         JPanel page = new JPanel(new BorderLayout());
@@ -48,7 +51,7 @@ public class OkListener implements MouseListener{
         // readerpanel.add(reader.drawDisplay());
         // page.add(readerpanel);
 
-        window.add(reader.drawDisplay(),BorderLayout.CENTER);
+        window.add(display,BorderLayout.CENTER);
 
         JTextField chemin = new JTextField(this.searchbar.getText());
         chemin.addMouseListener(new CheminListener(chemin,1));
@@ -68,7 +71,7 @@ public class OkListener implements MouseListener{
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page));
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page,display));
 
 
 
@@ -103,12 +106,15 @@ public class OkListener implements MouseListener{
         this.window.add(page,BorderLayout.PAGE_START);
         // page.add(test,BorderLayout.PAGE_START);
         // this.window.add(page,BorderLayout.CENTER);
+
+        this.window.setVisible(true);
     }
 
 
 
     public void mouseClicked(MouseEvent e) {
         this.window.remove(page);
+        this.window.remove(display);
         this.refresh();
         this.window.invalidate();
         this.window.validate();

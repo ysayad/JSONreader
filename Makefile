@@ -21,7 +21,11 @@ clean:
 run:
 	java -jar Inspecteur.jar ex1.json
 
+.PHONY : console
+console: compile jar
+	java -jar Inspecteur.jar 'file:res/ex1.json'
+
 .PHONY : all
 .DEFAULT_GOAL := all
 all: compile jar
-	java -jar Inspecteur.jar 'file:res/ex1.json'
+	java -jar Inspecteur.jar

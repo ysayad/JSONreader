@@ -57,6 +57,8 @@ public class Display extends JFrame {
 
 
             switch (token.getType()) {
+                case OPEN:
+                    break;
                 case KEY_NAME:
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     JTextPane pts = new JTextPane();
@@ -65,8 +67,6 @@ public class Display extends JFrame {
                     lignes.add(ligne);
                     lignes.add(pts);
                     break;
-
-                case OPEN:
                 case CLOSE:
                 case START_ARRAY:
                 case START_OBJECT:
