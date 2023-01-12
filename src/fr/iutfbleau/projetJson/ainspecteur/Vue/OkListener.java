@@ -31,15 +31,14 @@ public class OkListener implements MouseListener{
 
 
     public void refresh(){
-        Menu menu = new Menu(this.window);
+Menu menu = new Menu(this.window);
         this.window.add(menu.drawMenu(),BorderLayout.LINE_START);
 
         JPanel header = new JPanel();
         header.setBackground(new Color(23, 23, 23));
-        // JLabel titre = new JLabel("JReader");
-        // titre.setForeground(new Color(200,200,200));
-        // header.add(titre, BorderLayout.WEST);
-        // this.window.add(header, BorderLayout.PAGE_START);
+        JLabel titre = new JLabel("JReader");
+        titre.setForeground(new Color(200,200,200));
+        header.add(titre);
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
@@ -48,13 +47,12 @@ public class OkListener implements MouseListener{
 
         JPanel page = new JPanel(new BorderLayout());
 
-        // readerpanel.add(reader.drawDisplay());
-        // page.add(readerpanel);
-
-        window.add(display,BorderLayout.CENTER);
+        //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
+        //page.add(readerpanel, BorderLayout.WEST);
 
         JTextField chemin = new JTextField(this.searchbar.getText());
-        chemin.addMouseListener(new CheminListener(chemin,1));
+        chemin.setForeground(Color.BLACK);
+        chemin.addMouseListener(new CheminListener(chemin));
 
         JPanel okpanel = new JPanel();
         GridLayout gridLayout = new GridLayout(1,1);
@@ -102,12 +100,15 @@ public class OkListener implements MouseListener{
         test.add(okpanel);
         test.add(parcourirpanel);
 
-        page.add(test,BorderLayout.PAGE_START);
-        this.window.add(page,BorderLayout.PAGE_START);
-        // page.add(test,BorderLayout.PAGE_START);
-        // this.window.add(page,BorderLayout.CENTER);
+        header.add(titre);
+        this.window.add(header, BorderLayout.PAGE_START);
 
-        this.window.setVisible(true);
+        display.add(test,BorderLayout.PAGE_START);
+        this.window.add(display,BorderLayout.CENTER);
+
+
+
+
     }
 
 
