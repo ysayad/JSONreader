@@ -4,9 +4,10 @@ import src.fr.iutfbleau.projetJson.ainspecteur.Vue.display.Display;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.UIManager.*;
-
-
-
+import javax.swing.BorderFactory;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.Border;
 
 
 public class Fenetre {
@@ -40,7 +41,11 @@ public class Fenetre {
         //page.add(readerpanel, BorderLayout.WEST);
 
         JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+
+        chemin.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(43, 43, 43)),
+        BorderFactory.createEmptyBorder(0, 10, 0, 0)));        
         chemin.setForeground(Color.GRAY);
+        chemin.setBackground(new Color(250, 250, 255));
         chemin.addMouseListener(new CheminListener(chemin));
 
         JPanel okpanel = new JPanel();
@@ -89,8 +94,10 @@ public class Fenetre {
         JPanel test2 = new JPanel(new GridLayout(1,2));
         test2.add(okpanel);
         test2.add(parcourirpanel);
+        test.setBackground(new Color(43, 43, 43));
+        test.add(chemin);
         test.add(test2, BorderLayout.EAST);
-        display.add(test,BorderLayout.PAGE_START);
+        fenetre.add(test, BorderLayout.NORTH);
         fenetre.add(display,BorderLayout.CENTER);
 
 

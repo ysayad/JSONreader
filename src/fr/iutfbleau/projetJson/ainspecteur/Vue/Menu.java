@@ -13,6 +13,7 @@ public class Menu extends JFrame {
         this.menu = new JPanel();
         this.menu.setBackground(new Color(43, 43, 43));
         GridLayout t = new GridLayout(12,1);
+
         t.setHgap(0);
         t.setVgap(0);
         this.menu.setLayout(t);

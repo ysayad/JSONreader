@@ -48,8 +48,12 @@ public class OkListener implements MouseListener{
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
 
-        JTextField chemin = new JTextField(this.searchbar.getText());
-        chemin.setForeground(Color.BLACK);
+                JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+
+        chemin.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(43, 43, 43)),
+        BorderFactory.createEmptyBorder(0, 10, 0, 0)));        
+        chemin.setForeground(Color.GRAY);
+        chemin.setBackground(new Color(250, 250, 255));
         chemin.addMouseListener(new CheminListener(chemin,1));
 
         JPanel okpanel = new JPanel();
@@ -96,8 +100,10 @@ public class OkListener implements MouseListener{
         JPanel test2 = new JPanel(new GridLayout(1,2));
         test2.add(okpanel);
         test2.add(parcourirpanel);
+        test.setBackground(new Color(43, 43, 43));
+        test.add(chemin);
         test.add(test2, BorderLayout.EAST);
-        display2.add(test,BorderLayout.PAGE_START);
+        this.window.add(test, BorderLayout.NORTH);
         this.window.add(display2,BorderLayout.CENTER);
 
 
