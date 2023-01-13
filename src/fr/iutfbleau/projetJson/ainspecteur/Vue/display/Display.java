@@ -13,7 +13,7 @@ public class Display extends JFrame {
     JFrame window;
     public String path;
 
-    JsonTree tree;
+    Tree tree;
 
     public Display(JFrame window, String path){
         this.window = window;
@@ -23,14 +23,14 @@ public class Display extends JFrame {
         this.path = path;
 
         JsonString string = new JsonString(path);
-        JsonParser parser = new JsonParser(string);
-        JsonTree tree = new JsonTree(parser);
+        Parser parser = new JsonParser(string);
+        Tree tree = new JsonTree(parser);
 
         this.tree = tree;
     }
 
     public JPanel drawDisplay(){
-        JPanel compteur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        JPanel compteur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 1));
         int cpt = 0;
 
         
@@ -42,20 +42,22 @@ public class Display extends JFrame {
         jsp.setBorder(BorderFactory.createEmptyBorder());
         vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
-        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
 
-
+        JTextPane blank = new JTextPane();
+        blank.setBorder(BorderFactory.createEmptyBorder());
+        blank.setEditable(false);
+        lignes.add(blank);
+        vertical.add(lignes);
 
 
         while (!tree.isEmpty()) {
-            MaillonTree token = tree.remove();
-            System.out.println(token.getValeur() + " " + token.getType());
+            Maillon token = tree.remove();
+            //System.out.println(token.getValeur() + " " + token.getType());
 
             JTextPane ligne = new JTextPane();
             ligne.setBorder(BorderFactory.createEmptyBorder());
             ligne.setEditable(false);
-
-
             switch (token.getType()) {
                 case OPEN:
                     cpt++;
@@ -78,7 +80,7 @@ public class Display extends JFrame {
                     break;
                 case START_ARRAY:
                 case START_OBJECT:
-                    cpt++;
+
                     if (lignes.getComponentCount() == 0) {
                         for (int i = 0; i < cpt; i++) {
                             addColoredText(ligne, "     ", Color.BLACK);
@@ -88,8 +90,9 @@ public class Display extends JFrame {
                     ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     vertical.add(lignes);
+                    cpt++;
                     break;
                 case END_ARRAY:
                 case END_OBJECT:
@@ -98,8 +101,9 @@ public class Display extends JFrame {
                     }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     vertical.add(lignes);
+                    cpt--;
                     break;
                 default:
                     if (lignes.getComponentCount() == 0) {
@@ -109,7 +113,7 @@ public class Display extends JFrame {
                     }
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     vertical.add(lignes);
                     break;
             }
@@ -143,15 +147,15 @@ public class Display extends JFrame {
         }           
     }
 
-    private Color pickColor(MaillonTree maillon){
+    private Color pickColor(Maillon maillon){
         switch (maillon.getType()) {
             case START_OBJECT:
             case END_OBJECT:
             case START_ARRAY:
             case END_ARRAY:
-                return Color.MAGENTA;
+                return Color.BLACK;
             case KEY_NAME:
-                return Color.CYAN;
+                return Color.RED;
             case VALUE_NUMBER:
                 return Color.GREEN;
             case VALUE_STRING:

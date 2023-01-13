@@ -86,7 +86,7 @@ public class JsonFilter {
      * lance le constructeur
      */
     public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
+        String chaine = new String("{\"étudiants\":[{\"nom\": \"Alice\",\"note_moyenne\": 17.5},{\"nom\": \"Bob\",\"note_moyenne\": 15.0},{\"nom\": \"Charlie\",\"note_moyenne\": 20.0,\"test\": null}]}");
         JsonParser j = new JsonParser(chaine);
         JsonTree t = new JsonTree(j);
         t.changement(2);
