@@ -42,10 +42,10 @@ public class JsonTree implements Tree{
         MaillonTree m=new MaillonTree();
         MaillonTree n=new MaillonTree();
         this.noeud=n;
-        for(;!liste.hasNext();){
+        for(int i=0;!liste.hasNext();i++){
             Maillon o=liste.next();
             m=new MaillonTree(o.getValeur(),o.getType());
-            this.ajouter(m);
+            this.ajouter(m,i);
         }
     }
     /** méthode
@@ -118,7 +118,7 @@ public class JsonTree implements Tree{
      * @return void,
      * ajoute un élément à l'arbre
      */
-    public void ajouter(MaillonTree m){
+    public void ajouter(MaillonTree m,int i){
         if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
             MaillonTree t = new MaillonTree();
             if(m.getType()==JsonType.START_OBJECT){
@@ -126,10 +126,14 @@ public class JsonTree implements Tree{
             }
             if(m.getType()==JsonType.START_ARRAY){
                 t.setValeur("[...]");
+            }if(i==0){
+                t.setType(JsonType.OPEN);
+                this.tab.add(0);
+            }else{
+                t.setType(JsonType.CLOSE);
+                this.tab.add(1);
             }
-            t.setType(JsonType.OPEN);
             this.dico.add(t);
-            this.tab.add(0);
             this.noeud.add(t);
             this.pile.addFirst(this.noeud);
             this.noeud=t;

@@ -43,7 +43,7 @@ public interface Tree {
      * @return void,
      * ajoute un élément à l'arbre
      */
-    public void ajouter(MaillonTree m);
+    public void ajouter(MaillonTree m,int i);
     /** méthode
      *
      * @param void,
