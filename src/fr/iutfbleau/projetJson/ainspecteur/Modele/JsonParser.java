@@ -93,7 +93,9 @@ public class JsonParser implements Parser{
         if(this.element.compareTo("null")==0){
             return JsonType.VALUE_NULL;
         }
-        return null;
+        else {
+            return JsonType.VALUE_NULL;
+        }
     }
     /** méthode
      *

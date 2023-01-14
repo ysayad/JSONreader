@@ -18,6 +18,7 @@ public class Display extends JFrame {
     public Display(JFrame window, String path){
         this.window = window;
         this.menu = new JPanel();
+        //this.menu.setSize(500, 500);
         this.menu.setBackground(new Color(150, 150, 150));
         this.menu.setLayout(new BorderLayout());
         this.path = path;
@@ -29,17 +30,15 @@ public class Display extends JFrame {
         this.tree = tree;
     }
 
-    public JPanel drawDisplay(){
+    public JScrollPane drawDisplay(){
         JPanel compteur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 1));
         int cpt = 0;
+        boolean isnoeud;
+        int level = 0;
 
         
         JPanel vertical = new JPanel();
-        JScrollPane jsp = new JScrollPane(vertical);
-        jsp.setSize(vertical.getSize());
-        jsp.setHorizontalScrollBarPolicy(jsp.HORIZONTAL_SCROLLBAR_NEVER);
-        jsp.getVerticalScrollBar().setUnitIncrement(16);
-        jsp.setBorder(BorderFactory.createEmptyBorder());
+
         vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
         JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
@@ -47,8 +46,15 @@ public class Display extends JFrame {
         JTextPane blank = new JTextPane();
         blank.setBorder(BorderFactory.createEmptyBorder());
         blank.setEditable(false);
+
+        
+
+        compteur.add(new JLabel("test"));
+
         lignes.add(blank);
         vertical.add(lignes);
+
+        //System.out.println(jsp.getAlignmentX() + " "+ jsp.getSize().getHeight());
 
 
         while (!tree.isEmpty()) {
@@ -80,22 +86,23 @@ public class Display extends JFrame {
                     break;
                 case START_ARRAY:
                 case START_OBJECT:
-
+                    if (lignes.getComponentCount() == 0) {
+                        cpt++;
+                    }
                     if (lignes.getComponentCount() == 0) {
                         for (int i = 0; i < cpt; i++) {
                             addColoredText(ligne, "     ", Color.BLACK);
                         }
                     }
-
                     ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
                     addColoredText(ligne, token.getValeur(), pickColor(token));
                     lignes.add(ligne);
                     lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     vertical.add(lignes);
-                    cpt++;
                     break;
                 case END_ARRAY:
                 case END_OBJECT:
+                    cpt--;
                     for (int i = 0; i < cpt; i++) {
                         addColoredText(ligne, "     ", Color.BLACK);
                     }
@@ -103,7 +110,6 @@ public class Display extends JFrame {
                     lignes.add(ligne);
                     lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     vertical.add(lignes);
-                    cpt--;
                     break;
                 default:
                     if (lignes.getComponentCount() == 0) {
@@ -125,13 +131,18 @@ public class Display extends JFrame {
             // compteur.add(numero);
         }
 
-        compteur.setPreferredSize(new Dimension(50, this.window.getHeight()));
-        lignes.setPreferredSize(new Dimension(900, this.window.getHeight()));
+        compteur.setPreferredSize(new Dimension(50, lignes.getHeight()));
+        lignes.setPreferredSize(new Dimension(this.window.getWidth() - 450, 300));
 
         this.menu.add(compteur, BorderLayout.WEST);
-        this.menu.add(jsp, BorderLayout.CENTER);
-        this.menu.setPreferredSize(new Dimension(1000, this.window.getHeight()));
-        return this.menu;
+        this.menu.add(vertical, BorderLayout.CENTER);
+        JScrollPane jsp = new JScrollPane(menu);
+        //jsp.setSize(10000,10000);
+        jsp.setHorizontalScrollBarPolicy(jsp.HORIZONTAL_SCROLLBAR_NEVER);
+        jsp.getVerticalScrollBar().setUnitIncrement(16);
+        jsp.setBorder(BorderFactory.createEmptyBorder());
+
+        return jsp;
     }
 
     private void addColoredText(JTextPane pane, String text, Color color) {

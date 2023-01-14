@@ -39,4 +39,9 @@ public class JsonString{
     public String toString() {
         return str;
     }
+
+    public static void main(String[] args) {
+        JsonString test = new JsonString(args[0]);
+        System.out.println(test.toString());
+    }
 }

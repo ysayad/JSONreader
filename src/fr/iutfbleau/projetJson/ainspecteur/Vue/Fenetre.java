@@ -31,8 +31,8 @@ public class Fenetre {
 
   
 
-        Display reader = new Display(fenetre, "file:res/ex1.json");
-        JPanel display = reader.drawDisplay();
+        Display reader = new Display(fenetre, "file:res/ex2.json");
+        JScrollPane display = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
         JPanel page = new JPanel(new BorderLayout());
