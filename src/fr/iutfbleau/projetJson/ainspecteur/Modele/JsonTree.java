@@ -174,7 +174,7 @@ public class JsonTree implements Tree{
             m=maillon.remove();
             if(m.isNoeud()){
                 if(m.getType()==JsonType.OPEN){
-                    chaine=chaine+this.afficher(m,i+1)+"\n";
+                    chaine=chaine+this.afficher(m,i+1);
                 }
                 if(m.getType()==JsonType.CLOSE){
                     for(int j=0;j<i;j++){

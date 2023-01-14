@@ -3,6 +3,7 @@ package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 public class JsonFilter {
     private JsonTree arbre;
     private int compte;
+    private MaillonTree dernier;
     /** constructeur
      *
      * @param JsonTree l'arbre,
@@ -12,6 +13,7 @@ public class JsonFilter {
     public JsonFilter(JsonTree tree){
         this.arbre = tree;
         this.compte=0;
+        this.dernier=new MaillonTree(null,null);
     }
     /** méthode
      *
@@ -31,14 +33,18 @@ public class JsonFilter {
      */
     public String filtrer(MaillonTree noeud){
         String texte="",indent="";
-        MaillonTree m=null,souvenir=new MaillonTree(null,null);
+        MaillonTree m=this.dernier,souvenir=new MaillonTree();
         for(;!noeud.isEmpty();){
             m=noeud.remove();
+            //System.out.println(this.dernier.getValeur());
+            //System.out.println(this.dernier.getType());
             if(souvenir.getType()==JsonType.KEY_NAME){
                 texte=texte+": ";
             }
             if(m.isNoeud()){
                 if(m.getType()==JsonType.OPEN){
+                    souvenir=m;
+                    this.dernier=m;
                     texte=texte+this.filtrer(m);
                 }
                 if(m.getType()==JsonType.CLOSE){
@@ -70,6 +76,10 @@ public class JsonFilter {
                     texte=texte+indent;
                 }
                 if(m.getType()==JsonType.START_ARRAY || m.getType()==JsonType.START_OBJECT){
+                    //System.out.println(souvenir.getType());
+                    if(this.dernier.getType()==JsonType.END_ARRAY || this.dernier.getType()==JsonType.END_OBJECT){
+                        texte=texte+",";
+                    }
                     texte=texte+"\n";
                     texte=texte+indent;
                 }
@@ -78,10 +88,11 @@ public class JsonFilter {
                     texte=texte+indent;
                 }
                 texte=texte+m.getValeur();
+                souvenir=m;
             }
             indent="";
-            souvenir=m;
         }
+        this.dernier=m;
         return texte;
     }
     /** main
@@ -91,7 +102,7 @@ public class JsonFilter {
      * lance le constructeur
      */
     public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
+        //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
         JsonString s = new JsonString(args[0]);
         JsonParser j = new JsonParser(s.toString());
         JsonTree t = new JsonTree(j);

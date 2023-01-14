@@ -14,7 +14,9 @@ public class JsonParser implements Parser{
      */
     public JsonParser(JsonString texte) {
         this.chaine=texte.toString();
+        this.premier=new MaillonParser(null, null);
         this.premier=this.transformer(this.premier);
+        //this.premier=this.inversion(this.premier);
     }
     /** constructeur
      *
@@ -24,6 +26,7 @@ public class JsonParser implements Parser{
      */
     public JsonParser(String texte) {
         this.chaine=texte;
+        this.premier=new MaillonParser(null, null);
         this.premier=this.transformer(this.premier);
     }
     /** méthode
@@ -33,18 +36,25 @@ public class JsonParser implements Parser{
      * construis et affiche la fenetre
      */
     public MaillonParser transformer(MaillonParser maillon){
-        if(this.chaine.length()==0){
-            return maillon;
+        MaillonParser apres=null,debut=null;
+        for(;this.chaine.length()!=0;){
+            this.chaine=this.retirer(this.chaine);
+            if(this.element!=null){
+                if(this.element.compareTo(" ")!=0 && Character.codePointAt(this.element,0)!=10){
+                    JsonType type=this.typer();
+                    maillon = new MaillonParser(this.element,type);
+                    if(apres==null){
+                        apres=maillon;
+                        debut=maillon;
+                    }
+                    else if(maillon!=null){
+                        apres.setSuivant(maillon);
+                        apres=maillon;
+                    }
+                }
+            }
         }
-        this.chaine= this.retirer(this.chaine);
-        if(this.element!=null && this.element.compareTo(" ")!=0){
-            JsonType type=this.typer();
-            maillon = new MaillonParser (this.element,type);
-            maillon.setSuivant(transformer(maillon.getSuivant()));
-        }else{
-            maillon = transformer(maillon);
-        }
-        return maillon;
+        return debut;
     }
     /** méthode
      *
@@ -129,9 +139,12 @@ public class JsonParser implements Parser{
      */
     public String caractere(String texte){
         this.element="\"";
+        String precedant=" ";
         texte=texte.substring(1);
-        for(;texte.charAt(0)!='"';){
+        for(;(texte.charAt(0)!='"' || precedant.charAt(0)=='\\')  && texte.length()!=0;){
             this.element=this.element+texte.charAt(0);
+            char[] c={this.element.charAt(this.element.length()-1)};
+            precedant=new String(c);
             texte=texte.substring(1);
         }
         this.element=this.element+texte.charAt(0);
@@ -188,10 +201,13 @@ public class JsonParser implements Parser{
      * renvoie un élément du JSonParser
      */
     public String afficher(MaillonParser maillon){
-        if(maillon.getSuivant()==null){
-            return maillon.getValeur();
+        String chaine="";
+        for(;maillon.getSuivant()!=null;){
+            chaine=chaine+maillon.getValeur()+" "+maillon.getType()+" ";
+            maillon=maillon.getSuivant();
         }
-        return maillon.getValeur()+" "+maillon.getType()+" "+this.afficher(maillon.getSuivant());
+        chaine=chaine+maillon.getValeur()+" "+maillon.getType()+" ";
+        return chaine;
     }
     /** méthode
      *

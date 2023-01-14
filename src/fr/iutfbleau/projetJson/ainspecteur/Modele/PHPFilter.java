@@ -123,8 +123,9 @@ public class PHPFilter {
      * lance le constructeur
      */
     public static void main(String[] args) {
-        String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,[0.5,null,1e1],1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
-        JsonParser j = new JsonParser(chaine);
+        //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,[0.5,null,1e1],1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");
+        JsonString s = new JsonString(args[0]);
+        JsonParser j = new JsonParser(s);
         JsonTree t = new JsonTree(j);
         PHPFilter r = new PHPFilter(t);
         System.out.println(r.toString());
