@@ -18,9 +18,9 @@ public class OkListener implements MouseListener{
     JTextField searchbar;
     Menu menu;
     JPanel page;
-    JPanel display;
+    JScrollPane display;
     String path;
-    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JPanel display, Menu menu) {
+    public OkListener(JTextField searchbar,JButton button, JPanel buttonpannel, JFrame window,JPanel page, JScrollPane display, Menu menu) {
         this.window = window;
         this.searchbar = searchbar;
         this.page = page;
@@ -40,7 +40,7 @@ public class OkListener implements MouseListener{
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
-        JPanel display2 = reader.drawDisplay();
+        //JPanel display2 = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
         JPanel page2 = new JPanel(new BorderLayout());
@@ -70,7 +70,7 @@ public class OkListener implements MouseListener{
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,menu2));
+        //ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,menu2));
 
 
 
@@ -104,7 +104,7 @@ public class OkListener implements MouseListener{
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
         this.window.add(test, BorderLayout.NORTH);
-        this.window.add(display2,BorderLayout.CENTER);
+        //this.window.add(display2,BorderLayout.CENTER);
 
 
 
