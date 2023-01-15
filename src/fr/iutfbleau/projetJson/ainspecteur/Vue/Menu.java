@@ -44,7 +44,7 @@ public class Menu extends JFrame {
         buttonpanel.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
         buttonpanel.add(button);
-        button.addMouseListener(new ButtonListener(button,buttonpanel,window,this.page,this.display,this.searchbar));
+        button.addMouseListener(new ButtonListener(button,buttonpanel,window,this.page,this.display,this.searchbar,this));
         return buttonpanel;
     }
 

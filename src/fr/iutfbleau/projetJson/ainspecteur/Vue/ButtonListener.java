@@ -13,18 +13,19 @@ public class ButtonListener implements MouseListener{
     JButton button;
     JPanel buttonpannel;
     JFrame window;
-    Menu menu;
     JPanel page;
     JScrollPane display;
     JTextField searchbar;
+    Menu menu;
 
-    public ButtonListener(JButton button, JPanel buttonpannel, JFrame window, JPanel page, JScrollPane display, JTextField searchbar) {
+    public ButtonListener(JButton button, JPanel buttonpannel, JFrame window, JPanel page, JScrollPane display, JTextField searchbar, Menu menu) {
         this.button = button;
         this.buttonpannel = buttonpannel;
         this.window = window;
-        this.menu = menu;
         this.display = display;
         this.searchbar=searchbar;
+        this.page = page;
+        this.menu = menu;
     }
 
 
@@ -47,11 +48,12 @@ public class ButtonListener implements MouseListener{
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
-        JScrollPane display2 = reader.drawDisplay();
+        JScrollPane display2 = reader.drawDisplayPHP();
+        display2.setLayout(new ScrollPaneLayout());
         //JPanel display2 = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
-
         JPanel page2 = new JPanel(new BorderLayout());
+
 
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
@@ -116,7 +118,7 @@ public class ButtonListener implements MouseListener{
         this.window.add(menu2.drawMenu(),BorderLayout.LINE_START);
 
         this.window.add(test, BorderLayout.NORTH);
-        //this.window.add(display2,BorderLayout.CENTER);
+        this.window.add(display2,BorderLayout.CENTER);
 
 
 
@@ -132,10 +134,15 @@ public class ButtonListener implements MouseListener{
 
         if (this.button.getName().equals("Afficher la version PHP")){
             System.out.println("Affichage php");
+            System.out.println(this.searchbar.getText());
+            this.window.remove(this.menu.drawMenu());
+            this.window.remove(this.page);
+            this.window.remove(this.display);
             affichePHP();
             this.window.invalidate();
             this.window.validate();
             this.window.revalidate();
+            this.window.repaint();
         }
 
 
