@@ -16,7 +16,7 @@ public class PHPFilter {
     public PHPFilter(JsonTree tree){
         this.arbre = tree;
         this.compte=0;
-        this.numero=1;
+        this.numero=0;
         this.pile= new ArrayDeque<Integer>();
     }
     /** méthode
