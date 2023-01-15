@@ -36,8 +36,6 @@ public class JsonFilter {
         MaillonTree m=this.dernier,souvenir=new MaillonTree();
         for(;!noeud.isEmpty();){
             m=noeud.remove();
-            //System.out.println(this.dernier.getValeur());
-            //System.out.println(this.dernier.getType());
             if(souvenir.getType()==JsonType.KEY_NAME){
                 texte=texte+": ";
             }
@@ -48,6 +46,8 @@ public class JsonFilter {
                     texte=texte+this.filtrer(m);
                 }
                 if(m.getType()==JsonType.CLOSE){
+                    souvenir=m;
+                    this.dernier=m;
                     for(int j=0;j<this.compte;j++){
                         indent=indent+"    ";
                     }
