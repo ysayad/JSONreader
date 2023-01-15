@@ -152,7 +152,7 @@ public class JsonTree implements Tree{
      * modifie l'ouverture d'un noeud
      */
     public void changement(int i){
-        this.tab.set(i,this.tab.get(i)+1%2);
+        this.tab.set(i,(this.tab.get(i)+1)%2);
     }
     /** méthode
      *
