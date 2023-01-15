@@ -18,6 +18,7 @@ public class Display extends JFrame {
     private String content;
     private JFrame window;
     public String path;
+    private JPanel ligne; 
 
     private MaillonTree dernier;
     private int compte;
@@ -47,11 +48,11 @@ public class Display extends JFrame {
 
         vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
-        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+        this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
 
         MaillonTree token = tree.getNoeud();
         
-        filter(token, vertical, lignes);
+        filter(token, vertical);
 
         this.menu.add(vertical);
 
@@ -63,13 +64,13 @@ public class Display extends JFrame {
         return jsp;
     }
 
-    private void filter(MaillonTree noeud, JPanel vertical, JPanel ligne){
+    private void filter(MaillonTree noeud, JPanel vertical){
         String indent="";
         MaillonTree m=this.dernier,souvenir=new MaillonTree();
         while(!noeud.isEmpty()){
             m=noeud.remove();
             if(souvenir.getType()==JsonType.KEY_NAME){
-                ligne.add(new JLabel(" : "));
+                this.ligne.add(new JLabel(": "));
             }
             if(m.isNoeud()){
                 n++;
@@ -77,7 +78,7 @@ public class Display extends JFrame {
                     souvenir=m;
                     this.dernier=m;
 
-                    filter(m, vertical, ligne);
+                    filter(m, vertical);
                 }
                 if(m.getType()==JsonType.CLOSE){
                     souvenir=m;
@@ -85,12 +86,12 @@ public class Display extends JFrame {
                     for(int j=0;j<this.compte;j++){
                         indent=indent+"    ";
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                     JLabel close = new JLabel(m.getValeur());
                     close.addMouseListener(new TextListener(this.window, vertical, tree, n));
-                    ligne.add(close);
+                    this.ligne.add(close);
                 }
             }
             if(!m.isNoeud()){
@@ -105,34 +106,34 @@ public class Display extends JFrame {
                 }
                 if((m.getType()==JsonType.VALUE_STRING || m.getType()==JsonType.VALUE_NUMBER || m.getType()==JsonType.VALUE_NULL || m.getType()==JsonType.VALUE_TRUE || m.getType()==JsonType.VALUE_FALSE)&& souvenir.getType()!=JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_ARRAY){
-                        ligne.add(new JLabel(","));
+                        this.ligne.add(new JLabel(","));
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }if(m.getType()==JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_OBJECT){
-                        ligne.add(new JLabel(","));  
+                        this.ligne.add(new JLabel(","));  
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
                 if(m.getType()==JsonType.START_ARRAY || m.getType()==JsonType.START_OBJECT){
                     //System.out.println(souvenir.getType());
                     if(this.dernier.getType()==JsonType.END_ARRAY || this.dernier.getType()==JsonType.END_OBJECT){
-                        ligne.add(new JLabel(",")); 
+                        this.ligne.add(new JLabel(",")); 
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
                 if(m.getType()==JsonType.END_ARRAY || m.getType()==JsonType.END_OBJECT){
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
-                ligne.add(actual);
+                this.ligne.add(actual);
                 souvenir=m;
             }
             indent="";
