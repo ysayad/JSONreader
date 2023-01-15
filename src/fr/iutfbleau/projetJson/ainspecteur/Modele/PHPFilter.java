@@ -3,7 +3,7 @@ package src.fr.iutfbleau.projetJson.ainspecteur.Modele;
 import java.util.*;
 
 public class PHPFilter {
-    private JsonTree arbre;
+    private Tree arbre;
     private int compte;
     private int numero;
     private Deque<Integer> pile;
@@ -13,7 +13,7 @@ public class PHPFilter {
      * @return void,
      * constructeur du filtre
      */
-    public PHPFilter(JsonTree tree){
+    public PHPFilter(Tree tree){
         this.arbre = tree;
         this.compte=0;
         this.numero=0;

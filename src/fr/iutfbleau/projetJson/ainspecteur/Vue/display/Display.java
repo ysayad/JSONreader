@@ -1,5 +1,5 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Vue.display;
-
+import src.fr.iutfbleau.projetJson.ainspecteur.Modele.*;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,6 @@ import src.fr.iutfbleau.projetJson.ainspecteur.Vue.Menu;
 import javax.swing.*;
 import javax.swing.text.*;
 
-import src.fr.iutfbleau.projetJson.ainspecteur.Modele.*;
 
 
 public class Display extends JFrame {
@@ -42,6 +41,34 @@ public class Display extends JFrame {
         this.tree = tree;
         this.n = 0;
     }
+
+
+    public JScrollPane drawDisplayPHP(){
+        PHPFilter phpfiltrer = new PHPFilter(this.tree);
+        JScrollPane container = new JScrollPane();
+
+        String chaine = phpfiltrer.toString();
+        String stock = "";
+
+
+        for(int i = 0;chaine.length()>i; i+=1 ){
+            if (chaine.charAt(i) == '\n'){
+                System.out.println(stock);
+                container.add(new JLabel(stock));
+            }else{
+                char[] c= {chaine.charAt(i)};
+                chaine.charAt(i);
+                stock+=new String(c);
+            }
+        }
+    System.out.println("soteszihsepoifhsepuoibf");
+    return container;
+
+
+
+
+    }
+
 
     public JScrollPane drawDisplay(){
         JPanel vertical = new JPanel();
