@@ -1,6 +1,11 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Vue.display;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.*;
+import src.fr.iutfbleau.projetJson.ainspecteur.Vue.Menu;
+
 import javax.swing.*;
 import javax.swing.text.*;
 
@@ -8,136 +13,49 @@ import src.fr.iutfbleau.projetJson.ainspecteur.Modele.*;
 
 
 public class Display extends JFrame {
-    JPanel menu;
-    String content;
-    JFrame window;
+
+    private JPanel menu;
+    private String content;
+    private JFrame window;
     public String path;
 
-    Tree tree;
+    private MaillonTree dernier;
+    private int compte;
+    private int n;
+
+    JsonTree tree;
 
     public Display(JFrame window, String path){
         this.window = window;
+
         this.menu = new JPanel();
-        //this.menu.setSize(500, 500);
         this.menu.setBackground(new Color(150, 150, 150));
         this.menu.setLayout(new BorderLayout());
         this.path = path;
 
         JsonString string = new JsonString(path);
         Parser parser = new JsonParser(string);
-        Tree tree = new JsonTree(parser);
+        JsonTree tree = new JsonTree(parser);
 
+        this.dernier = new MaillonTree(null, null);
         this.tree = tree;
+        this.n = 0;
     }
 
     public JScrollPane drawDisplay(){
-        JPanel compteur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 1));
-        int cpt = 0;
-        boolean isnoeud;
-        int level = 0;
-
-        
         JPanel vertical = new JPanel();
 
         vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
         JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
 
-        JTextPane blank = new JTextPane();
-        blank.setBorder(BorderFactory.createEmptyBorder());
-        blank.setEditable(false);
-
+        MaillonTree token = tree.getNoeud();
         
+        filter(token, vertical, lignes);
 
-        compteur.add(new JLabel("test"));
+        this.menu.add(vertical);
 
-        lignes.add(blank);
-        vertical.add(lignes);
-
-        //System.out.println(jsp.getAlignmentX() + " "+ jsp.getSize().getHeight());
-
-
-        while (!tree.isEmpty()) {
-            Maillon token = tree.remove();
-            //System.out.println(token.getValeur() + " " + token.getType());
-
-            JTextPane ligne = new JTextPane();
-            ligne.setBorder(BorderFactory.createEmptyBorder());
-            ligne.setEditable(false);
-            switch (token.getType()) {
-                case OPEN:
-                    cpt++;
-                    break;
-                case KEY_NAME:
-                    for (int i = 0; i < cpt; i++) {
-                        addColoredText(ligne, "     ", Color.BLACK);
-                    }
-                    addColoredText(ligne, token.getValeur(), pickColor(token));
-                    JTextPane pts = new JTextPane();
-                    pts.setBorder(BorderFactory.createEmptyBorder());
-                    pts.setEditable(false);
-                    addColoredText(pts, " : ", Color.BLACK);
-                    lignes.add(ligne);
-                    lignes.add(pts);
-                    break;
-                case CLOSE:
-                    cpt--;
-                    ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
-                    break;
-                case START_ARRAY:
-                case START_OBJECT:
-                    if (lignes.getComponentCount() == 0) {
-                        cpt++;
-                    }
-                    if (lignes.getComponentCount() == 0) {
-                        for (int i = 0; i < cpt; i++) {
-                            addColoredText(ligne, "     ", Color.BLACK);
-                        }
-                    }
-                    ligne.addMouseListener(new TextListener(token.getValeur()));; //pour mettre le listener du dépli syntaxique
-                    addColoredText(ligne, token.getValeur(), pickColor(token));
-                    lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    vertical.add(lignes);
-                    break;
-                case END_ARRAY:
-                case END_OBJECT:
-                    cpt--;
-                    for (int i = 0; i < cpt; i++) {
-                        addColoredText(ligne, "     ", Color.BLACK);
-                    }
-                    addColoredText(ligne, token.getValeur(), pickColor(token));
-                    lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    vertical.add(lignes);
-                    break;
-                default:
-                    if (lignes.getComponentCount() == 0) {
-                        for (int i = 0; i < cpt; i++) {
-                            addColoredText(ligne, "     ", Color.BLACK);
-                        }
-                    }
-                    addColoredText(ligne, token.getValeur(), pickColor(token));
-                    lignes.add(ligne);
-                    lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    vertical.add(lignes);
-                    break;
-            }
-
-
-            // JTextArea numero = new JTextArea(Integer.toString(cpt));
-            // numero.setEditable(false);
-            // numero.setBorder(null);
-            // compteur.add(numero);
-        }
-
-        compteur.setPreferredSize(new Dimension(50, lignes.getHeight()));
-        lignes.setPreferredSize(new Dimension(this.window.getWidth() - 450, 300));
-
-        this.menu.add(compteur, BorderLayout.WEST);
-        this.menu.add(vertical, BorderLayout.CENTER);
         JScrollPane jsp = new JScrollPane(menu);
-        //jsp.setSize(10000,10000);
         jsp.setHorizontalScrollBarPolicy(jsp.HORIZONTAL_SCROLLBAR_NEVER);
         jsp.getVerticalScrollBar().setUnitIncrement(16);
         jsp.setBorder(BorderFactory.createEmptyBorder());
@@ -145,38 +63,108 @@ public class Display extends JFrame {
         return jsp;
     }
 
-    private void addColoredText(JTextPane pane, String text, Color color) {
-        StyledDocument doc = pane.getStyledDocument();
+    private void filter(MaillonTree noeud, JPanel vertical, JPanel ligne){
+        String indent="";
+        MaillonTree m=this.dernier,souvenir=new MaillonTree();
+        while(!noeud.isEmpty()){
+            m=noeud.remove();
+            if(souvenir.getType()==JsonType.KEY_NAME){
+                ligne.add(new JLabel(" : "));
+            }
+            if(m.isNoeud()){
+                n++;
+                if(m.getType()==JsonType.OPEN){
+                    souvenir=m;
+                    this.dernier=m;
 
-        Style style = pane.addStyle("Color Style", null);
-        StyleConstants.setForeground(style, color);
-        try {
-            doc.insertString(doc.getLength(), text, style);
-        } 
-        catch (BadLocationException e) {
-            e.printStackTrace();
-        }           
+                    filter(m, vertical, ligne);
+                }
+                if(m.getType()==JsonType.CLOSE){
+                    souvenir=m;
+                    this.dernier=m;
+                    for(int j=0;j<this.compte;j++){
+                        indent=indent+"    ";
+                    }
+                    vertical.add(ligne);
+                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    ligne.add(new JLabel(indent));
+                    JLabel close = new JLabel(m.getValeur());
+                    close.addMouseListener(new TextListener(this.window, vertical, tree, n));
+                    ligne.add(close);
+                }
+            }
+            if(!m.isNoeud()){
+                JLabel actual = new JLabel(m.getValeur());
+                pickColor(actual, m);
+                if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
+                    this.compte--;
+                }for(int i=0;i<this.compte;i++){
+                    indent=indent+"    ";
+                }if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
+                    this.compte++;
+                }
+                if((m.getType()==JsonType.VALUE_STRING || m.getType()==JsonType.VALUE_NUMBER || m.getType()==JsonType.VALUE_NULL || m.getType()==JsonType.VALUE_TRUE || m.getType()==JsonType.VALUE_FALSE)&& souvenir.getType()!=JsonType.KEY_NAME){
+                    if(souvenir.getType()!=JsonType.START_ARRAY){
+                        ligne.add(new JLabel(","));
+                    }
+                    vertical.add(ligne);
+                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    ligne.add(new JLabel(indent));
+                }if(m.getType()==JsonType.KEY_NAME){
+                    if(souvenir.getType()!=JsonType.START_OBJECT){
+                        ligne.add(new JLabel(","));  
+                    }
+                    vertical.add(ligne);
+                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    ligne.add(new JLabel(indent));
+                }
+                if(m.getType()==JsonType.START_ARRAY || m.getType()==JsonType.START_OBJECT){
+                    //System.out.println(souvenir.getType());
+                    if(this.dernier.getType()==JsonType.END_ARRAY || this.dernier.getType()==JsonType.END_OBJECT){
+                        ligne.add(new JLabel(",")); 
+                    }
+                    vertical.add(ligne);
+                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    ligne.add(new JLabel(indent));
+                }
+                if(m.getType()==JsonType.END_ARRAY || m.getType()==JsonType.END_OBJECT){
+                    vertical.add(ligne);
+                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    ligne.add(new JLabel(indent));
+                }
+                ligne.add(actual);
+                souvenir=m;
+            }
+            indent="";
+        }
+        this.dernier=m;
     }
 
-    private Color pickColor(Maillon maillon){
+    private void pickColor(JLabel label, MaillonTree maillon){
         switch (maillon.getType()) {
             case START_OBJECT:
             case END_OBJECT:
             case START_ARRAY:
             case END_ARRAY:
-                return Color.BLACK;
+                label.setForeground(Color.BLACK);
+                break;
             case KEY_NAME:
-                return Color.RED;
+                label.setForeground(Color.RED);
+                break;
             case VALUE_NUMBER:
-                return Color.GREEN;
+                label.setForeground(Color.GREEN);
+                break;
             case VALUE_STRING:
-                return Color.ORANGE;
+                label.setForeground(Color.ORANGE);
+                break;
             case VALUE_TRUE:
             case VALUE_FALSE:
             case VALUE_NULL:
-                return Color.BLUE;
+                label.setForeground(Color.BLUE);
+                break;
             default:
-                return Color.MAGENTA;
+                label.setForeground(Color.MAGENTA);
+                break;
         }
     }
 
