@@ -28,18 +28,19 @@ public class OkListener implements MouseListener{
         this.buttonpannel = buttonpannel;
         this.menu = menu;
         this.display = display;
+        this.page = page;
     }
 
 
     public void refresh(){
-        Menu menu2 = new Menu(this.window);
-        this.window.add(menu2.drawMenu(),BorderLayout.LINE_START);
+
 
 
 
 
 
         Display reader = new Display(this.window, this.searchbar.getText());
+        JScrollPane display2 = reader.drawDisplay();
         //JPanel display2 = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
@@ -103,6 +104,9 @@ public class OkListener implements MouseListener{
         test.setBackground(new Color(43, 43, 43));
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
+
+        Menu menu2 = new Menu(this.window, page2,display2,chemin);
+        this.window.add(menu2.drawMenu(),BorderLayout.LINE_START);
         this.window.add(test, BorderLayout.NORTH);
         //this.window.add(display2,BorderLayout.CENTER);
 

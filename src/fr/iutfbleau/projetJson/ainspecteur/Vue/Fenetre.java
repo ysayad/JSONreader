@@ -26,8 +26,7 @@ public class Fenetre {
         } catch (Exception e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
-        Menu menu = new Menu(fenetre);
-        fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
+
 
   
 
@@ -62,7 +61,7 @@ public class Fenetre {
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, menu));
+
 
 
 
@@ -97,6 +96,10 @@ public class Fenetre {
         test.setBackground(new Color(43, 43, 43));
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
+
+        Menu menu = new Menu(fenetre, page, display, chemin);
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, menu));
+        fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
         fenetre.add(test, BorderLayout.NORTH);
         fenetre.add(display,BorderLayout.CENTER);
 

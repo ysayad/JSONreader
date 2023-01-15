@@ -8,16 +8,20 @@ public class Menu extends JFrame {
     String content;
     JFrame window;
 
-    public Menu(JFrame window){
+    JPanel page;
+    JScrollPane display;
+    JTextField searchbar;
+    public Menu(JFrame window,JPanel page, JScrollPane display,JTextField searchbar){
         this.window = window;
         this.menu = new JPanel();
         this.menu.setBackground(new Color(43, 43, 43));
         GridLayout t = new GridLayout(12,1);
-
+        this.searchbar =searchbar;
         t.setHgap(0);
         t.setVgap(0);
         this.menu.setLayout(t);
-
+        this.display = display;
+        this.page = page;
 
     }
 
@@ -40,7 +44,7 @@ public class Menu extends JFrame {
         buttonpanel.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
         buttonpanel.add(button);
-        button.addMouseListener(new ButtonListener(button,buttonpanel,window));
+        button.addMouseListener(new ButtonListener(button,buttonpanel,window,this.page,this.display,this.searchbar));
         return buttonpanel;
     }
 
