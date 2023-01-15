@@ -1,0 +1,27 @@
+{
+    "string_value": "une chaîne de caractères",
+    "number_value": 123,
+    "boolean_value": true,
+    "array_value": [1, 2, 3, 4],
+    "object_value": {
+        "inner_key": "inner_value",
+        "inner_array": [5, 6, 7],
+        "inner_object": {
+            "inner_inner_key": "inner_inner_value"
+        }
+    },
+    "null_value": null,
+    "object_array": [
+        {"key1": "value1"},
+        {"key2": "value2"},
+        {"key3": "value3"}
+    ],
+    "array_of_objects": [
+        {
+            "object1_key": "object1_value"
+        },
+        {
+            "object2_key": "object2_value"
+        }
+    ]
+}
