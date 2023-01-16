@@ -17,8 +17,9 @@ public class ButtonListener implements MouseListener{
     JScrollPane display;
     JTextField searchbar;
     Menu menu;
+    JPanel test;
 
-    public ButtonListener(JButton button, JPanel buttonpannel, JFrame window, JPanel page, JScrollPane display, JTextField searchbar, Menu menu) {
+    public ButtonListener(JButton button, JPanel buttonpannel, JFrame window, JPanel page, JScrollPane display, JTextField searchbar, Menu menu, JPanel test ) {
         this.button = button;
         this.buttonpannel = buttonpannel;
         this.window = window;
@@ -26,6 +27,7 @@ public class ButtonListener implements MouseListener{
         this.searchbar=searchbar;
         this.page = page;
         this.menu = menu;
+        this.test = test;
     }
 
 
@@ -47,24 +49,25 @@ public class ButtonListener implements MouseListener{
 
 
 
-        Display reader = new Display(this.window, this.searchbar.getText());
-        JScrollPane display2 = reader.drawDisplayPHP();
-        display2.setLayout(new ScrollPaneLayout());
-        //JPanel display2 = reader.drawDisplay();
-        //JPanel readerpanel = new JPanel();
-        JPanel page2 = new JPanel(new BorderLayout());
 
+
+
+        Display reader = new Display(this.window, this.searchbar.getText());
+        JScrollPane display = reader.drawDisplayPHP();
+        //JPanel readerpanel = new JPanel();
+
+        JPanel page = new JPanel(new BorderLayout());
 
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
 
-        JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+        JTextField chemin = new JTextField(this.searchbar.getText());
 
         chemin.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(43, 43, 43)),
                 BorderFactory.createEmptyBorder(0, 10, 0, 0)));
         chemin.setForeground(Color.GRAY);
         chemin.setBackground(new Color(250, 250, 255));
-        chemin.addMouseListener(new CheminListener(chemin,1));
+        chemin.addMouseListener(new CheminListener(chemin));
 
         JPanel okpanel = new JPanel();
         GridLayout gridLayout = new GridLayout(1,1);
@@ -80,7 +83,7 @@ public class ButtonListener implements MouseListener{
         okpanel.setBackground(Color.BLACK);
         ok.setForeground(Color.WHITE);
         okpanel.add(ok);
-        //ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page2,display2,menu2));
+
 
 
 
@@ -89,6 +92,8 @@ public class ButtonListener implements MouseListener{
         gridLayout2.setHgap(50);
         gridLayout2.setVgap(0);
         parcourirpanel.setLayout(gridLayout2);
+
+
         JButton parcourir = new JButton("Parcourir");
         parcourir.setFont(new Font("Verdana", Font.PLAIN, 15));
         parcourir.setName("Parcourir");
@@ -114,11 +119,11 @@ public class ButtonListener implements MouseListener{
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
 
-        Menu menu2 = new Menu(this.window, page2,display2,chemin);
-        this.window.add(menu2.drawMenu(),BorderLayout.LINE_START);
-
+        Menu menu = new Menu(this.window, page, display, chemin,test);
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page,display, menu, test));
+        this.window.add(menu.drawMenu(),BorderLayout.LINE_START);
         this.window.add(test, BorderLayout.NORTH);
-        this.window.add(display2,BorderLayout.CENTER);
+        this.window.add(display,BorderLayout.CENTER);
 
 
 
@@ -138,11 +143,16 @@ public class ButtonListener implements MouseListener{
             this.window.remove(this.menu.drawMenu());
             this.window.remove(this.page);
             this.window.remove(this.display);
+            this.window.remove(this.test);
+            this.window.invalidate();
+            this.window.validate();
+            this.window.revalidate();
+            this.window.setVisible(true);
             affichePHP();
             this.window.invalidate();
             this.window.validate();
             this.window.revalidate();
-            this.window.repaint();
+            this.window.setVisible(true);
         }
 
 
