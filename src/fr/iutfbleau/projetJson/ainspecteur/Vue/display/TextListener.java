@@ -4,13 +4,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
 
-import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonFilter;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonTree;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonType;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.MaillonTree;
-import src.fr.iutfbleau.projetJson.ainspecteur.Vue.CheminListener;
-import src.fr.iutfbleau.projetJson.ainspecteur.Vue.Menu;
-import src.fr.iutfbleau.projetJson.ainspecteur.Vue.ParcourirListener;
 
 
 

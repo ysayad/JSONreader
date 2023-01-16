@@ -1,13 +1,8 @@
 package src.fr.iutfbleau.projetJson.ainspecteur.Vue.display;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.*;
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.*;
-import src.fr.iutfbleau.projetJson.ainspecteur.Vue.Menu;
 
 import javax.swing.*;
-import javax.swing.text.*;
 
 
 
