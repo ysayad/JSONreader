@@ -97,8 +97,8 @@ public class Fenetre {
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
 
-        Menu menu = new Menu(fenetre, page, display, chemin);
-        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, menu));
+        Menu menu = new Menu(fenetre, page, display, chemin,test);
+        ok.addMouseListener(new OkListener(chemin,ok,okpanel,fenetre,page,display, menu, test));
         fenetre.add(menu.drawMenu(),BorderLayout.LINE_START);
         fenetre.add(test, BorderLayout.NORTH);
         fenetre.add(display,BorderLayout.CENTER);

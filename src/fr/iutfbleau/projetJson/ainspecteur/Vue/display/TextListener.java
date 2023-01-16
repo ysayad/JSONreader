@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
 
+import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonFilter;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonTree;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.JsonType;
 import src.fr.iutfbleau.projetJson.ainspecteur.Modele.MaillonTree;
@@ -19,6 +20,7 @@ public class TextListener implements MouseListener {
     private JPanel vertical;
     private JsonTree arbre;
     private int n;
+    private JPanel ligne; 
     private MaillonTree dernier;
     private int compte;
 
@@ -38,22 +40,22 @@ public class TextListener implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        arbre.changement(n);
-        arbre.reconstruire();
-        System.out.println("test");
-        
+        while (!this.arbre.isEmpty()) {
+            this.arbre.remove();
+        }
+        this.arbre.reconstruire();
+        this.arbre.changement(n-1);
+        this.arbre.modifier();
 
         MaillonTree token = arbre.getNoeud();
-        JPanel lignes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
 
         this.vertical.removeAll();
+        this.vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
 
-        vertical.setLayout(new BoxLayout(vertical, BoxLayout.Y_AXIS));
-
-        refresh(token, vertical, arbre, lignes);
-
+        this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+        refresh(token, vertical, arbre);
+        this.vertical.add(this.ligne);
         this.vertical.revalidate();
-        this.vertical.repaint();
     }
 
     @Override
@@ -74,13 +76,13 @@ public class TextListener implements MouseListener {
         
     }
     
-    private void refresh(MaillonTree noeud, JPanel vertical, JsonTree tree, JPanel ligne){
+    private void refresh(MaillonTree noeud, JPanel vertical, JsonTree tree){
         String indent="";
         MaillonTree m=this.dernier,souvenir=new MaillonTree();
         while(!noeud.isEmpty()){
             m=noeud.remove();
             if(souvenir.getType()==JsonType.KEY_NAME){
-                ligne.add(new JLabel(": "));
+                this.ligne.add(new JLabel(": "));
             }
             if(m.isNoeud()){
                 n++;
@@ -88,7 +90,7 @@ public class TextListener implements MouseListener {
                     souvenir=m;
                     this.dernier=m;
 
-                    refresh(m, vertical, tree, ligne);
+                    refresh(m, vertical, tree);
                 }
                 if(m.getType()==JsonType.CLOSE){
                     souvenir=m;
@@ -96,12 +98,12 @@ public class TextListener implements MouseListener {
                     for(int j=0;j<this.compte;j++){
                         indent=indent+"    ";
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                     JLabel close = new JLabel(m.getValeur());
-                    close.addMouseListener(new TextListener(this.window, vertical, tree, n));
-                    ligne.add(close);
+                    close.addMouseListener(new TextListener(this.window, vertical, arbre, n));
+                    this.ligne.add(close);
                 }
             }
             if(!m.isNoeud()){
@@ -113,37 +115,38 @@ public class TextListener implements MouseListener {
                     indent=indent+"    ";
                 }if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
                     this.compte++;
+                    actual.addMouseListener(new TextListener(this.window, vertical, arbre, n));
                 }
                 if((m.getType()==JsonType.VALUE_STRING || m.getType()==JsonType.VALUE_NUMBER || m.getType()==JsonType.VALUE_NULL || m.getType()==JsonType.VALUE_TRUE || m.getType()==JsonType.VALUE_FALSE)&& souvenir.getType()!=JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_ARRAY){
-                        ligne.add(new JLabel(","));
+                        this.ligne.add(new JLabel(","));
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }if(m.getType()==JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_OBJECT){
-                        ligne.add(new JLabel(","));  
+                        this.ligne.add(new JLabel(","));  
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
                 if(m.getType()==JsonType.START_ARRAY || m.getType()==JsonType.START_OBJECT){
                     //System.out.println(souvenir.getType());
                     if(this.dernier.getType()==JsonType.END_ARRAY || this.dernier.getType()==JsonType.END_OBJECT){
-                        ligne.add(new JLabel(",")); 
+                        this.ligne.add(new JLabel(",")); 
                     }
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
                 if(m.getType()==JsonType.END_ARRAY || m.getType()==JsonType.END_OBJECT){
-                    vertical.add(ligne);
-                    ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
-                    ligne.add(new JLabel(indent));
+                    vertical.add(this.ligne);
+                    this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
+                    this.ligne.add(new JLabel(indent));
                 }
-                ligne.add(actual);
+                this.ligne.add(actual);
                 souvenir=m;
             }
             indent="";

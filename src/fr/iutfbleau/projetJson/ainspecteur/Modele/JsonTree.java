@@ -84,7 +84,6 @@ public class JsonTree implements Tree{
             this.stock.addFirst(this.substitution);
             this.noeud=m;
             this.substitution=m;
-            this.taille=this.taille-m.getTaille();
         }
         if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
             this.noeud=this.pile.removeFirst();

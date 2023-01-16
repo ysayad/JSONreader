@@ -11,7 +11,8 @@ public class Menu extends JFrame {
     JPanel page;
     JScrollPane display;
     JTextField searchbar;
-    public Menu(JFrame window,JPanel page, JScrollPane display,JTextField searchbar){
+    JPanel test;
+    public Menu(JFrame window,JPanel page, JScrollPane display,JTextField searchbar,JPanel test){
         this.window = window;
         this.menu = new JPanel();
         this.menu.setBackground(new Color(43, 43, 43));
@@ -22,6 +23,7 @@ public class Menu extends JFrame {
         this.menu.setLayout(t);
         this.display = display;
         this.page = page;
+        this.test = test;
 
     }
 
@@ -44,7 +46,7 @@ public class Menu extends JFrame {
         buttonpanel.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
         buttonpanel.add(button);
-        button.addMouseListener(new ButtonListener(button,buttonpanel,window,this.page,this.display,this.searchbar,this));
+        button.addMouseListener(new ButtonListener(button,buttonpanel,window,this.page,this.display,this.searchbar,this,this.test));
         return buttonpanel;
     }
 
