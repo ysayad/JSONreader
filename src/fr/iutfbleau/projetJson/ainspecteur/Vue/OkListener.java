@@ -52,7 +52,7 @@ public class OkListener implements MouseListener{
         //readerpanel.add(reader.drawDisplay(), BorderLayout.WEST);
         //page.add(readerpanel, BorderLayout.WEST);
 
-        JTextField chemin = new JTextField("Saisir l'emplacement du fichier");
+        JTextField chemin = new JTextField(this.searchbar.getText());
 
         chemin.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(43, 43, 43)),
                 BorderFactory.createEmptyBorder(0, 10, 0, 0)));
@@ -110,7 +110,7 @@ public class OkListener implements MouseListener{
         test.add(chemin);
         test.add(test2, BorderLayout.EAST);
 
-        Menu menu = new Menu(this.window, page, display, chemin);
+        Menu menu = new Menu(this.window, page, display, chemin,test);
         ok.addMouseListener(new OkListener(chemin,ok,okpanel,this.window,page,display, menu, test));
         this.window.add(menu.drawMenu(),BorderLayout.LINE_START);
         this.window.add(test, BorderLayout.NORTH);
