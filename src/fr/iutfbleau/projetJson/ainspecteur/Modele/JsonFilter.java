@@ -106,9 +106,6 @@ public class JsonFilter {
         JsonString s = new JsonString(args[0]);
         JsonParser j = new JsonParser(s.toString());
         JsonTree t = new JsonTree(j);
-        t.changement(1);
-        t.changement(2);
-        t.modifier();
         JsonFilter r = new JsonFilter(t);
         System.out.println(r.toString());
     }

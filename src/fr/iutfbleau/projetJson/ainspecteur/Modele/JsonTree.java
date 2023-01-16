@@ -84,6 +84,7 @@ public class JsonTree implements Tree{
             this.stock.addFirst(this.substitution);
             this.noeud=m;
             this.substitution=m;
+            this.taille=this.taille-m.getTaille();
         }
         if(m.getType()==JsonType.END_OBJECT || m.getType()==JsonType.END_ARRAY){
             this.noeud=this.pile.removeFirst();
@@ -99,7 +100,7 @@ public class JsonTree implements Tree{
      * vérifie si l'arbre est vide
      */
     public boolean isEmpty(){
-        return this.taille==0;
+        return this.noeud.isEmpty();
     }
     /** méthode
      *
@@ -130,8 +131,8 @@ public class JsonTree implements Tree{
                 t.setType(JsonType.OPEN);
                 this.tab.add(0);
             }else{
-                t.setType(JsonType.CLOSE);
-                this.tab.add(1);
+                t.setType(JsonType.OPEN);
+                this.tab.add(0);
             }
             this.dico.add(t);
             this.noeud.add(t);
@@ -174,8 +175,8 @@ public class JsonTree implements Tree{
     public String afficher(MaillonTree maillon,int i){
         String chaine="",indent="";
         MaillonTree m=new MaillonTree(null,null);
-        for(;!maillon.isEmpty() &&  m.getType()!=JsonType.END_OBJECT && m.getType()!=JsonType.END_ARRAY;){
-            m=maillon.remove();
+        for(;!this.isEmpty() &&  m.getType()!=JsonType.END_OBJECT && m.getType()!=JsonType.END_ARRAY;){
+            m=this.remove();
             if(m.isNoeud()){
                 if(m.getType()==JsonType.OPEN){
                     chaine=chaine+this.afficher(m,i+1);
