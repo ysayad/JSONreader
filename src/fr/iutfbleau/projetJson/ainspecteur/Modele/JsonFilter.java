@@ -15,21 +15,21 @@ public class JsonFilter {
         this.compte=0;
         this.dernier=new MaillonTree(null,null);
     }
-    /** méthode
+    /** methode
      *
      * @param void,
-     * @return String la chaine représentant les filtres,
-     * renvoie la chaine à afficher
+     * @return String la chaine representant les filtres,
+     * renvoie la chaine a afficher
      */
     public String toString(){
         String chaine=this.filtrer(this.arbre.getNoeud());
         return chaine;
     }
-    /** méthode
+    /** methode
      *
      * @param MaillonTree le noeud que l'on filtre,
-     * @return String la chaine filtrée,
-     * renvoie la chaine qui à été filtrer
+     * @return String la chaine filtree,
+     * renvoie la chaine qui a ete filtrer
      */
     public String filtrer(MaillonTree noeud){
         String texte="",indent="";
@@ -97,7 +97,7 @@ public class JsonFilter {
     }
     /** main
      *
-     * @param args liste des arguments à la console,
+     * @param args liste des arguments e la console,
      * @return void,
      * lance le constructeur
      */

@@ -8,7 +8,7 @@ public class JsonParser implements Parser{
     private String chaine;
     /** constructeur
      *
-     * @param texte  la chaine à écrire,
+     * @param texte  la chaine à ecrire,
      * @return void,
      * construis le JSon parser avec une chaine de charactere
      */
@@ -20,7 +20,7 @@ public class JsonParser implements Parser{
     }
     /** constructeur
      *
-     * @param texte  la chaine à écrire,
+     * @param texte  la chaine à ecrire,
      * @return void,
      * construis le JSon parser avec une chaine de charactere
      */
@@ -29,7 +29,7 @@ public class JsonParser implements Parser{
         this.premier=new MaillonParser(null, null);
         this.premier=this.transformer(this.premier);
     }
-    /** méthode
+    /** methode
      *
      * @param MaillonParser un maillon qui sera modifier,
      * @return MaillonParser le premier maillon de la chaine,
@@ -56,11 +56,11 @@ public class JsonParser implements Parser{
         }
         return debut;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
-     * @return String le type de l'élément,
-     * renvoie le type de l'élément de la chaine
+     * @return String le type de l'element,
+     * renvoie le type de l'element de la chaine
      */
     public JsonType typer(){
         if(this.element.compareTo("{")==0){
@@ -97,11 +97,11 @@ public class JsonParser implements Parser{
             return JsonType.VALUE_NULL;
         }
     }
-    /** méthode
+    /** methode
      *
      * @param String la chaine de charactere,
-     * @return String l'élément,
-     * renvoie un élément de la chaine de String
+     * @return String l'element,
+     * renvoie un element de la chaine de String
      */
     public String retirer (String texte){
         if(texte.charAt(0)=='"'){
@@ -133,11 +133,11 @@ public class JsonParser implements Parser{
         this.element=null;
         return texte.substring(1);
     }
-    /** méthode
+    /** methode
      *
      * @param String la chaine de charactere,
-     * @return String l'élément,
-     * renvoie l'élement de type String
+     * @return String l'element,
+     * renvoie l'element de type String
      */
     public String caractere(String texte){
         this.element="\"";
@@ -152,11 +152,11 @@ public class JsonParser implements Parser{
         this.element=this.element+texte.charAt(0);
         return texte.substring(1);
     }
-    /** méthode
+    /** methode
      *
      * @param String la chaine de charactere,
-     * @return String l'élément,
-     * renvoie l'élement de type entier
+     * @return String l'element,
+     * renvoie l'element de type entier
      */
     public String entier(String texte){
         this.element=""+texte.charAt(0);
@@ -187,7 +187,7 @@ public class JsonParser implements Parser{
         }
         return texte;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return String contenu,
@@ -196,11 +196,11 @@ public class JsonParser implements Parser{
     public String toString(){
         return this.afficher(this.premier);
     }
-    /** méthode
+    /** methode
      *
-     * @param MaillonParser le maillon dans lequel retirer l'élément,
-     * @return String l'élément,
-     * renvoie un élément du JSonParser
+     * @param MaillonParser le maillon dans lequel retirer l'element,
+     * @return String l'element,
+     * renvoie un element du JSonParser
      */
     public String afficher(MaillonParser maillon){
         String chaine="";
@@ -211,7 +211,7 @@ public class JsonParser implements Parser{
         chaine=chaine+maillon.getValeur()+" "+maillon.getType()+" ";
         return chaine;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return Maillon un maillon,
@@ -222,11 +222,11 @@ public class JsonParser implements Parser{
         this.premier=this.premier.getSuivant();
         return texte;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return boolean true ou false,
-     * vérifie si le JSonParser est vide
+     * verifie si le JSonParser est vide
      */
     public boolean hasNext(){
         return this.premier==null;
@@ -235,7 +235,7 @@ public class JsonParser implements Parser{
      *
      * @param args les arguments à la console,
      * @return void,
-     * appelle le constructeur pour créer un JSonParser
+     * appelle le constructeur pour creer un JSonParser
      */
     public static void main(String[] args) {
         //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1]}");

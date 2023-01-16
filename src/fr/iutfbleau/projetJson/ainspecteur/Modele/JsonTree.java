@@ -17,7 +17,7 @@ public class JsonTree implements Tree{
     private int seuil;
     /** constructeur
      *
-     * @param liste  l'arbre à faire,
+     * @param liste  l'arbre a faire,
      * @return void,
      * constructeur de l'arbre
      */
@@ -32,9 +32,9 @@ public class JsonTree implements Tree{
         initialiser(liste);
         this.seuil=this.taille;
     }
-    /** méthode
+    /** methode
      *
-     * @param liste  l'arbre à faire,
+     * @param liste  l'arbre a faire,
      * @return void,
      * initialisateur de l'arbre
      */
@@ -48,11 +48,11 @@ public class JsonTree implements Tree{
             this.ajouter(m,i);
         }
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return void,
-     * modifie l'arbre en retirant tous les éléments et en le reconstruisant 
+     * modifie l'arbre en retirant tous les elements et en le reconstruisant 
      */
     public void modifier(){
         for(;!this.isEmpty();){
@@ -60,11 +60,11 @@ public class JsonTree implements Tree{
         }
         this.reconstruire();
     }
-    /** méthode
+    /** methode
      *
      * @param void,
-     * @return MaillonTree l'élément enlevé,
-     * retire un élément de l'arbre
+     * @return MaillonTree l'element enleve,
+     * retire un element de l'arbre
      */
     public MaillonTree remove(){
         MaillonTree m = this.noeud.remove();
@@ -92,16 +92,16 @@ public class JsonTree implements Tree{
         this.taille--;
         return m;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return boolean arbre vide,
-     * vérifie si l'arbre est vide
+     * verifie si l'arbre est vide
      */
     public boolean isEmpty(){
         return this.noeud.isEmpty();
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return void,
@@ -112,11 +112,11 @@ public class JsonTree implements Tree{
         this.noeud=this.substitution;
         this.substitution=new MaillonTree();
     }
-    /** méthode
+    /** methode
      *
-     * @param MaillonTree m le maillon à ajouter,
+     * @param MaillonTree m le maillon a ajouter,
      * @return void,
-     * ajoute un élément à l'arbre
+     * ajoute un element a l'arbre
      */
     public void ajouter(MaillonTree m,int i){
         if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
@@ -145,7 +145,7 @@ public class JsonTree implements Tree{
         }
         this.taille++;
     }
-    /** méthode
+    /** methode
      *
      * @param int i le numero du noeud dans l'ordre,
      * @return void,
@@ -154,22 +154,22 @@ public class JsonTree implements Tree{
     public void changement(int i){
         this.tab.set(i,(this.tab.get(i)+1)%2);
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return String chaine,
-     * renvoie le String qui représente l'arbre
+     * renvoie le String qui represente l'arbre
      */
     public String toString(){
         String chaine=this.afficher(this.noeud,0);
         this.reconstruire();
         return chaine;
     }
-    /** méthode
+    /** methode
      *
      * @param maillon le premier maillon de l'arbre, i entier qui indique la profondeur de la branche
      * @return String chaine,
-     * renvoie le String qui représente l'arbre
+     * renvoie le String qui represente l'arbre
      */
     public String afficher(MaillonTree maillon,int i){
         String chaine="",indent="";
@@ -196,7 +196,7 @@ public class JsonTree implements Tree{
         }
         return chaine;
     }
-    /** méthode
+    /** methode
      *
      * @param void,
      * @return MaillonTree noeud de l'arbre en cours de maniement,
@@ -207,9 +207,9 @@ public class JsonTree implements Tree{
     }
     /** main
      *
-     * @param args les arguments à la console,
+     * @param args les arguments a la console,
      * @return void,
-     * appelle le constructeur pour créer un JSonTree
+     * appelle le constructeur pour creer un JSonTree
      */
     public static void main(String[] args) {
         //String chaine = new String("{\"status\":\"ok\",\"size\":-3333.5444E+100,\"values\":[0.5,null,1e1],\"object\":{\"nom\":\"instrument\",\"values\":50}}");

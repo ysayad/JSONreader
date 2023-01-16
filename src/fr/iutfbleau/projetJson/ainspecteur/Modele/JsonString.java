@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 /**
- * Classe qui transforme un chemin ou URL json en chaîne de caractère
+ * Classe qui transforme un chemin ou URL json en chaine de caractere
  */
 
 public class JsonString{

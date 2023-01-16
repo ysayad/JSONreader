@@ -1,4 +1,4 @@
-JC = javac -implicit:none -d build/ -classpath build/ -sourcepath src
+JC = javac -encoding utf8 -implicit:none -d build/ -classpath build/ -sourcepath src
 SRC = src/fr/iutfbleau/projetJson
 BUILD = build/fr/iutfbleau/projetJson
 
