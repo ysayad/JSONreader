@@ -80,6 +80,7 @@ public class Display extends JFrame {
         MaillonTree token = tree.getNoeud();
         
         filter(token, vertical);
+        vertical.add(this.ligne);
 
         this.menu.add(vertical);
 
