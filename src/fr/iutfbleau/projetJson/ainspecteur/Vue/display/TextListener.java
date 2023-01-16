@@ -43,7 +43,7 @@ public class TextListener implements MouseListener {
         while (!this.arbre.isEmpty()) {
             this.arbre.remove();
         }
-        this.arbre.reconstruire();
+
         this.arbre.changement(n-1);
         this.arbre.modifier();
 
@@ -54,6 +54,8 @@ public class TextListener implements MouseListener {
 
         this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
         refresh(token, vertical, arbre);
+
+        this.arbre.reconstruire();
         this.vertical.add(this.ligne);
         this.vertical.revalidate();
     }

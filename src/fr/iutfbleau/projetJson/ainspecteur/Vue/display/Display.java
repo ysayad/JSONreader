@@ -63,6 +63,7 @@ public class Display extends JFrame {
             if (chaine.charAt(i) == '\n'){
                 System.out.println(stock);
                 contenu.add(new JLabel(stock));
+                stock ="";
             }else{
                 char[] c= {chaine.charAt(i)};
                 chaine.charAt(i);
@@ -71,12 +72,7 @@ public class Display extends JFrame {
         }
 
         JScrollPane container = new JScrollPane(contenu);
-
-        System.out.println("soteszihsepoifhsepuoibf");
         return container;
-
-
-
 
     }
 

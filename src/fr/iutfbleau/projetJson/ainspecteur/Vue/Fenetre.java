@@ -30,7 +30,7 @@ public class Fenetre {
 
   
 
-        Display reader = new Display(fenetre, "file:res/ex2.json");
+        Display reader = new Display(fenetre, "");
         JScrollPane display = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
