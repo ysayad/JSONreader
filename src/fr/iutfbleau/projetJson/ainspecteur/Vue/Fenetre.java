@@ -30,7 +30,7 @@ public class Fenetre {
 
   
 
-        Display reader = new Display(fenetre, "");
+        Display reader = new Display(fenetre, "file:res/ex1.json");
         JScrollPane display = reader.drawDisplay();
         //JPanel readerpanel = new JPanel();
 
