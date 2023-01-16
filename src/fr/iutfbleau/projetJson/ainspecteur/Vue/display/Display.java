@@ -24,6 +24,7 @@ public class Display extends JFrame {
     private int n;
 
     JsonTree tree;
+    JsonTree copie;
 
     public Display(JFrame window, String path){
         this.window = window;
@@ -35,10 +36,14 @@ public class Display extends JFrame {
 
         JsonString string = new JsonString(path);
         Parser parser = new JsonParser(string);
-        JsonTree tree = new JsonTree(parser);
+        this.tree = new JsonTree(parser);
 
         this.dernier = new MaillonTree(null, null);
-        this.tree = tree;
+
+        JsonString string2 = new JsonString(path);
+        Parser parser2 = new JsonParser(string2);
+        this.copie = new JsonTree(parser2);
+
         this.n = 0;
     }
 
@@ -79,7 +84,10 @@ public class Display extends JFrame {
 
         MaillonTree token = tree.getNoeud();
         
+
         filter(token, vertical);
+
+
         vertical.add(this.ligne);
 
         this.menu.add(vertical);
@@ -118,7 +126,7 @@ public class Display extends JFrame {
                     this.ligne = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 1));
                     this.ligne.add(new JLabel(indent));
                     JLabel close = new JLabel(m.getValeur());
-                    close.addMouseListener(new TextListener(this.window, vertical, tree, n));
+                    close.addMouseListener(new TextListener(this.window, vertical, copie, n));
                     this.ligne.add(close);
                 }
             }
@@ -131,6 +139,7 @@ public class Display extends JFrame {
                     indent=indent+"    ";
                 }if(m.getType()==JsonType.START_OBJECT || m.getType()==JsonType.START_ARRAY){
                     this.compte++;
+                    actual.addMouseListener(new TextListener(this.window, vertical, copie, n));
                 }
                 if((m.getType()==JsonType.VALUE_STRING || m.getType()==JsonType.VALUE_NUMBER || m.getType()==JsonType.VALUE_NULL || m.getType()==JsonType.VALUE_TRUE || m.getType()==JsonType.VALUE_FALSE)&& souvenir.getType()!=JsonType.KEY_NAME){
                     if(souvenir.getType()!=JsonType.START_ARRAY){
