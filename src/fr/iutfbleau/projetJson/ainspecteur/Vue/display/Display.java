@@ -50,7 +50,10 @@ public class Display extends JFrame {
 
     public JScrollPane drawDisplayPHP(){
         PHPFilter phpfiltrer = new PHPFilter(this.tree);
-        JScrollPane container = new JScrollPane();
+        JPanel contenu = new JPanel();
+        contenu.setLayout(new BoxLayout(contenu, BoxLayout.Y_AXIS));
+
+
 
         String chaine = phpfiltrer.toString();
         String stock = "";
@@ -59,15 +62,18 @@ public class Display extends JFrame {
         for(int i = 0;chaine.length()>i; i+=1 ){
             if (chaine.charAt(i) == '\n'){
                 System.out.println(stock);
-                container.add(new JLabel(stock));
+                contenu.add(new JLabel(stock));
             }else{
                 char[] c= {chaine.charAt(i)};
                 chaine.charAt(i);
                 stock+=new String(c);
             }
         }
-    System.out.println("soteszihsepoifhsepuoibf");
-    return container;
+
+        JScrollPane container = new JScrollPane(contenu);
+
+        System.out.println("soteszihsepoifhsepuoibf");
+        return container;
 
 
 
