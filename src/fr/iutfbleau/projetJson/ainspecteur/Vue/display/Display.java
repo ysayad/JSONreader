@@ -184,18 +184,18 @@ public class Display extends JFrame {
                 label.setForeground(Color.BLACK);
                 break;
             case KEY_NAME:
-                label.setForeground(Color.RED);
+                label.setForeground(Color.BLUE);
                 break;
             case VALUE_NUMBER:
-                label.setForeground(Color.GREEN);
+                label.setForeground(new Color(255, 123, 0));
                 break;
             case VALUE_STRING:
-                label.setForeground(Color.ORANGE);
+                label.setForeground(new Color(0, 152, 30));
                 break;
             case VALUE_TRUE:
             case VALUE_FALSE:
             case VALUE_NULL:
-                label.setForeground(Color.BLUE);
+                label.setForeground(Color.RED);
                 break;
             default:
                 label.setForeground(Color.MAGENTA);
