@@ -130,8 +130,8 @@ public class JsonTree implements Tree{
                 t.setType(JsonType.OPEN);
                 this.tab.add(0);
             }else{
-                t.setType(JsonType.CLOSE);
-                this.tab.add(1);
+                t.setType(JsonType.OPEN);
+                this.tab.add(0);
             }
             this.dico.add(t);
             this.noeud.add(t);
